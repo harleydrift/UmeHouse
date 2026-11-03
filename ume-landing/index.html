@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ume — Trà sữa Yên Nội · Vị trà thơm, thưởng trà thanh</title>
+  <meta name="description" content="Ume — trà sữa nhà làm tại làng Yên Nội, Ba Vì, Hà Nội. Đặt online ngay trên trang, giao tận nơi trong 2km miễn phí." />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <style>
+    :root {
+      --cream: #fbf9f7;
+      --cream-2: #f4efe8;
+      --brown: #8a6f52;
+      --brown-deep: #5f4a35;
+      --tan: #ccb79e;
+      --taupe: #c2ac91;
+      --ink: #4a3c2c;
+      --line: #e9e1d6;
+      --radius: 18px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 0 20px; }
+
+    /* header */
+    header { text-align: center; padding: 48px 0 30px; }
+    .logo { width: 180px; height: 180px; border-radius: 50%; box-shadow: 0 6px 24px rgba(138, 111, 82, 0.15); }
+    h1 { font-size: 15px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--brown); margin-top: 22px; }
+    .slogan { font-size: 22px; color: var(--brown-deep); margin-top: 6px; font-weight: 500; }
+    .est { font-size: 12px; letter-spacing: 3px; color: var(--taupe); margin-top: 8px; }
+    .cta {
+      display: inline-block; margin: 24px auto 0; padding: 14px 38px;
+      background: var(--brown); color: #fff; text-decoration: none;
+      border-radius: 999px; font-size: 16px; font-weight: 600;
+      box-shadow: 0 4px 14px rgba(138, 111, 82, 0.3);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .cta:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(138, 111, 82, 0.35); }
+    .cta-note { font-size: 13px; color: var(--taupe); margin-top: 10px; }
+
+    /* sections */
+    section { padding: 30px 0; }
+    h2 {
+      font-size: 13px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--taupe); text-align: center; margin-bottom: 22px;
+    }
+    h2::after { content: ""; display: block; width: 32px; height: 2px; background: var(--tan); margin: 10px auto 0; border-radius: 2px; }
+
+    /* ===== order form ===== */
+    .panel { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; }
+    .panel + .panel { margin-top: 14px; }
+    .panel h3 { font-size: 14px; color: var(--brown); font-weight: 600; margin-bottom: 12px; }
+
+    .item-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      padding: 10px 0; border-bottom: 1px dashed var(--line);
+    }
+    .item-row:last-of-type { border-bottom: none; }
+    .item-main { flex: 1; min-width: 0; }
+    .item-name { font-size: 15px; font-weight: 500; color: var(--brown-deep); }
+    .item-price { font-size: 13px; color: var(--taupe); }
+    .tops { margin-top: 4px; }
+    .tops label { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; color: var(--taupe); margin-right: 12px; cursor: pointer; }
+    .stepper { display: flex; align-items: center; gap: 2px; }
+    .stepper button {
+      width: 32px; height: 32px; border: 1px solid var(--tan); background: #fff; color: var(--brown);
+      border-radius: 10px; font-size: 17px; cursor: pointer; line-height: 1;
+    }
+    .stepper button:hover { background: var(--cream-2); }
+    .stepper .qty { min-width: 26px; text-align: center; font-weight: 600; color: var(--brown-deep); }
+
+    label.field, .field { display: block; margin-bottom: 12px; }
+    .field .lbl { display: block; font-size: 13px; color: var(--taupe); margin-bottom: 4px; }
+    input[type="text"], input[type="tel"], textarea {
+      width: 100%; padding: 10px 12px; font-size: 15px; color: var(--ink);
+      border: 1px solid var(--line); border-radius: 12px; background: var(--cream);
+      outline: none; font-family: inherit;
+    }
+    input:focus, textarea:focus { border-color: var(--tan); background: #fff; }
+    textarea { resize: vertical; min-height: 64px; }
+
+    .radios { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { position: relative; }
+    .chip input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+    .chip span {
+      display: inline-block; padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px;
+      font-size: 14px; color: var(--ink); background: #fff; cursor: pointer; white-space: nowrap;
+    }
+    .chip input:checked + span { background: var(--brown); border-color: var(--brown); color: #fff; }
+
+    .totals { border-top: 1px solid var(--line); margin-top: 14px; padding-top: 12px; font-size: 14px; }
+    .totals .row { display: flex; justify-content: space-between; padding: 2px 0; color: var(--taupe); }
+    .totals .row.grand { color: var(--brown-deep); font-weight: 600; font-size: 16px; padding-top: 6px; }
+    .submit {
+      width: 100%; margin-top: 16px; padding: 14px; border: none; border-radius: 999px;
+      background: var(--brown); color: #fff; font-size: 16px; font-weight: 600; cursor: pointer;
+      box-shadow: 0 4px 14px rgba(138, 111, 82, 0.3); font-family: inherit;
+    }
+    .submit:disabled { opacity: 0.55; cursor: wait; }
+    .form-msg { margin-top: 12px; font-size: 14px; border-radius: 12px; padding: 10px 14px; display: none; }
+    .form-msg.error { display: block; background: #fdf2f0; color: #a04b3c; }
+    .form-msg.wait { display: block; background: var(--cream-2); color: var(--brown-deep); }
+
+    .menu-loading { text-align: center; color: var(--taupe); font-size: 14px; padding: 18px 0; }
+    .menu-loading button {
+      margin-left: 10px; padding: 6px 16px; border: 1px solid var(--tan); border-radius: 999px;
+      background: #fff; color: var(--brown); cursor: pointer; font-size: 13px; font-family: inherit;
+    }
+
+    .success { text-align: center; padding: 34px 24px; }
+    .success .big { font-size: 34px; }
+    .success h3 { color: var(--brown-deep); font-size: 19px; margin: 10px 0 4px; }
+    .success .code {
+      display: inline-block; margin: 12px 0; padding: 10px 22px; border: 2px dashed var(--tan);
+      border-radius: 12px; font-size: 20px; font-weight: 700; letter-spacing: 1px; color: var(--brown-deep);
+    }
+    .success p { font-size: 14px; color: var(--taupe); }
+    .again { margin-top: 18px; background: none; border: 1px solid var(--tan); color: var(--brown); padding: 9px 22px; border-radius: 999px; cursor: pointer; font-size: 14px; font-family: inherit; }
+
+    /* info */
+    .info { display: grid; gap: 12px; }
+    @media (min-width: 560px) { .info { grid-template-columns: 1fr 1fr; } }
+    .card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; }
+    .card h3 { font-size: 14px; color: var(--brown); font-weight: 600; margin-bottom: 8px; }
+    .card p, .card li { font-size: 14px; color: var(--ink); }
+    .card ul { list-style: none; }
+    .card li { padding: 3px 0; display: flex; justify-content: space-between; gap: 8px; }
+    .card li .fee { color: var(--brown); font-weight: 600; white-space: nowrap; }
+
+    /* footer */
+    footer { text-align: center; padding: 40px 0 48px; color: var(--taupe); font-size: 13px; }
+    footer .shop-name { font-size: 14px; color: var(--brown); font-weight: 600; letter-spacing: 2px; }
+  </style>
+</head>
+<body>
+
+  <div class="wrap">
+    <header>
+      <img class="logo" src="logo.png" alt="Logo Ume" />
+      <h1>UME</h1>
+      <p class="slogan">Vị trà thơm, thưởng trà thanh</p>
+      <p class="est">EST. 2026 · LÀNG YÊN NỘI, BA VÌ, HÀ NỘI</p>
+      <a class="cta" href="#order">Đặt hàng ngay</a>
+      <p class="cta-note">Chọn món và gửi đơn ngay trên trang — không cần tải app, không cần tài khoản</p>
+    </header>
+
+    <section id="order">
+      <h2>Thực đơn &amp; đặt hàng</h2>
+
+      <form id="order-form" onsubmit="return false;">
+        <div class="panel">
+          <h3>🧋 Chọn món</h3>
+          <div id="items">
+            <div class="menu-loading" id="menu-loading">Đang tải thực đơn từ quán...
+              <button type="button" onclick="loadMenu()">Tải lại</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>🙋 Thông tin khách</h3>
+          <label class="field">
+            <span class="lbl">Tên khách</span>
+            <input type="text" id="f-name" maxlength="100" placeholder="VD: Lan" required />
+          </label>
+          <label class="field">
+            <span class="lbl">Số điện thoại</span>
+            <input type="tel" id="f-phone" maxlength="12" placeholder="VD: 0912345678" required />
+          </label>
+        </div>
+
+        <div class="panel">
+          <h3>🛵 Nhận hàng</h3>
+          <div class="radios" id="delivery-chips">
+            <label class="chip"><input type="radio" name="delivery" value="giao" checked onchange="onDeliveryChange()" /><span>Giao tận nơi</span></label>
+            <label class="chip"><input type="radio" name="delivery" value="tu_lay" onchange="onDeliveryChange()" /><span>Tự đến lấy</span></label>
+          </div>
+          <div id="zone-wrap" style="margin-top: 12px;">
+            <span class="lbl">Khu vực</span>
+            <div class="radios" id="zone-chips">
+              <label class="chip"><input type="radio" name="zone" value="trong_2km" checked onchange="renderTotals()" /><span>Trong 2km · 0đ</span></label>
+              <label class="chip"><input type="radio" name="zone" value="den_10km" onchange="renderTotals()" /><span>Đến 10km · 10.000đ</span></label>
+            </div>
+          </div>
+          <div class="field" id="address-wrap" style="margin-top: 12px;">
+            <span class="lbl">Địa chỉ giao hàng</span>
+            <input type="text" id="f-address" maxlength="200" placeholder="Số nhà, ngõ, thôn/làng..." />
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>💳 Thanh toán</h3>
+          <div class="radios">
+            <label class="chip"><input type="radio" name="payment" value="cod" checked /><span>Tiền mặt</span></label>
+            <label class="chip"><input type="radio" name="payment" value="chuyen_khoan" /><span>Chuyển khoản</span></label>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>📝 Ghi chú</h3>
+          <textarea id="f-note" maxlength="500" placeholder="Ví dụ: ít đá, gọi trước khi giao"></textarea>
+        </div>
+
+        <div class="panel">
+          <div class="totals">
+            <div class="row"><span>Tạm tính</span><span id="t-sub">0đ</span></div>
+            <div class="row"><span>Phí giao hàng</span><span id="t-fee">0đ</span></div>
+            <div class="row grand"><span>Tổng</span><span id="t-total">0đ</span></div>
+          </div>
+          <button class="submit" id="btn-submit" type="button" onclick="submitOrder()" disabled>Gửi đơn</button>
+          <div class="form-msg" id="form-msg"></div>
+        </div>
+      </form>
+
+      <div class="panel success" id="order-success" hidden>
+        <div class="big">🎉</div>
+        <h3>Đã nhận đơn của bạn!</h3>
+        <div class="code" id="s-code">UM-XXXX</div>
+        <p id="s-detail"></p>
+        <p>Ume sẽ gọi/nhắn xác nhận trong ít phút. Giữ lại mã đơn để tiện tra cứu nhé.</p>
+        <button class="again" type="button" onclick="resetForm()">Đặt thêm đơn khác</button>
+      </div>
+    </section>
+
+    <section id="info">
+      <h2>Giao hàng &amp; thanh toán</h2>
+      <div class="info">
+        <div class="card">
+          <h3>🛵 Giao tận nơi</h3>
+          <ul>
+            <li><span>Trong vòng 2km</span><span class="fee">Miễn phí</span></li>
+            <li><span>Đến 10km</span><span class="fee">10.000đ</span></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>🚶 Tự đến lấy</h3>
+          <p>Miễn phí giao hàng — ghé Ume tại làng Yên Nội, Ba Vì, Hà Nội để lấy đơn.</p>
+        </div>
+        <div class="card">
+          <h3>💳 Thanh toán</h3>
+          <p>Tiền mặt khi nhận hàng, hoặc chuyển khoản (quét QR khi đặt đơn).</p>
+        </div>
+        <div class="card">
+          <h3>📞 Cần hỗ trợ?</h3>
+          <p>Nhắn cho Ume qua Zalo/Facebook — ghi rõ tên và mã đơn nếu đơn đã gửi.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p class="shop-name">UME</p>
+      <p>Vị trà thơm, thưởng trà thanh</p>
+      <p>EST. 2026</p>
+    </footer>
+  </div>
+
+  <iframe name="ume-post" hidden title="hidden"></iframe>
+
+  <script>
+    /* ============================================================
+       NỐI VỚI SCRIPT "NHẬP ĐƠN" CỦA QUÁN
+       GAS_URL: link /exec của web app Nhập đơn.
+       Script bên kia chỉ cần dán file apps-script/tich-hop-script-
+       nhap-don.gs + thêm 1 dòng if (webRequest_(e)) return webResponse_(e);
+       vào đầu doGet — web dùng lại staffUiConfig + staffSubmit có sẵn.
+       ============================================================ */
+    //const GAS_URL = "https://script.google.com/macros/s/AKfycbwXLjugd21GN2EN7IRQBpanpcYPIfmdnTQKt_A3_vem_31eDu88DBBQ8IfxWlwyw3Ci2w/exec";
+    const GAS_URL ="https://script.google.com/macros/s/AKfycbxnCPHTeGg9smYyIaCa_pz-RPP0CrbRzfeMLbZx5DKbAtkRlBRFGROEeYv5Og2xX34deA/exec";
+    const KEY = "7e941cc59e3151ce73da9c59ee2d72f90d0fc5b82c226153";
+
+    const fmt = (n) => (n || 0).toLocaleString("vi-VN") + "đ";
+
+    /* ---- trạng thái ---- */
+    let MENU = null; // { products, toppings, shipping_fees }
+    let items = [];  // { product_id, name, price, qty, toppings:Set }
+
+    /* ---- tải menu live từ script Nhập đơn (JSONP) ---- */
+    function loadMenu() {
+      const box = document.getElementById("items");
+      box.innerHTML = '<div class="menu-loading">Đang tải thực đơn từ quán...</div>';
+      const fn = "umeMenuCb_" + Date.now();
+      window[fn] = (data) => {
+        delete window[fn];
+        s.remove();
+        if (!data || !data.ok) {
+          box.innerHTML = '<div class="menu-loading">Không tải được thực đơn. Vui lòng thử lại.' +
+            ' <button type="button" onclick="loadMenu()">Tải lại</button></div>';
+          return;
+        }
+        MENU = data;
+        items = data.products.map((p) => ({ ...p, qty: 0, tops: new Set() }));
+        renderItems();
+        renderTotals();
+        document.getElementById("btn-submit").disabled = false;
+      };
+      const s = document.createElement("script");
+      s.src = GAS_URL + "?page=menu&key=" + encodeURIComponent(KEY) + "&callback=" + fn;
+      s.onerror = () => {
+        s.remove();
+        box.innerHTML = '<div class="menu-loading">Không kết nối được hệ thống. Kiểm tra mạng rồi bấm Tải lại.' +
+          ' <button type="button" onclick="loadMenu()">Tải lại</button></div>';
+      };
+      document.head.appendChild(s);
+    }
+
+    function renderItems() {
+      const box = document.getElementById("items");
+      const tops = (MENU.toppings || []);
+      box.innerHTML = items
+        .map(
+          (it, i) => `
+        <div class="item-row">
+          <div class="item-main">
+            <div class="item-name">${it.name}</div>
+            <div class="item-price">${fmt(it.price)}</div>
+            ${tops.length
+              ? `<div class="tops">${tops
+                  .map(
+                    (t) =>
+                      `<label><input type="checkbox" ${it.tops.has(t.id) ? "checked" : ""} onchange="toggleTop(${i}, '${t.id}', this.checked)" /> ${t.name}${t.price ? " · " + fmt(t.price) : ""}</label>`
+                  )
+                  .join("")}</div>`
+              : ""}
+          </div>
+          <div class="stepper">
+            <button type="button" aria-label="Bớt một" onclick="changeQty(${i}, -1)">−</button>
+            <span class="qty">${it.qty}</span>
+            <button type="button" onclick="changeQty(${i}, 1)">+</button>
+          </div>
+        </div>`
+        )
+        .join("");
+    }
+
+    function changeQty(i, d) {
+      items[i].qty = Math.max(0, Math.min(99, items[i].qty + d));
+      renderItems();
+      renderTotals();
+    }
+    function toggleTop(i, topId, v) {
+      if (v) items[i].tops.add(topId); else items[i].tops.delete(topId);
+      renderTotals();
+    }
+
+    function onDeliveryChange() {
+      const isDelivery = deliveryMethod() === "giao";
+      document.getElementById("zone-wrap").style.display = isDelivery ? "" : "none";
+      document.getElementById("address-wrap").style.display = isDelivery ? "" : "none";
+      renderTotals();
+    }
+
+    function deliveryMethod() {
+      return document.querySelector('input[name="delivery"]:checked').value;
+    }
+
+    function chosenItems() {
+      return items.filter((it) => it.qty > 0);
+    }
+
+    function totals() {
+      const chosen = chosenItems();
+      const sub = chosen.reduce(
+        (s, it) =>
+          s + it.qty * (Number(it.price) || 0 +
+            [...it.tops].reduce((t, id) => {
+              const tp = (MENU.toppings || []).find((x) => x.id === id);
+              return t + (Number(tp && tp.price) || 0);
+            }, 0)),
+        0
+      );
+      let fee = 0;
+      if (deliveryMethod() === "giao" && MENU && MENU.shipping_fees) {
+        const zone = document.querySelector('input[name="zone"]:checked').value;
+        fee = Number(MENU.shipping_fees[zone]) || 0;
+      }
+      return { chosen, sub, fee, total: sub + fee };
+    }
+
+    function renderTotals() {
+      const t = totals();
+      document.getElementById("t-sub").textContent = fmt(t.sub);
+      document.getElementById("t-fee").textContent = fmt(t.fee);
+      document.getElementById("t-total").textContent = fmt(t.total);
+    }
+
+    function showMsg(kind, text) {
+      const el = document.getElementById("form-msg");
+      el.className = "form-msg " + kind;
+      el.textContent = text;
+    }
+
+    function newSubmissionId() {
+      if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+      return "web-" + Date.now() + "-" + Math.random().toString(36).slice(2);
+    }
+
+    function submitOrder() {
+      const t = totals();
+      const name = document.getElementById("f-name").value.trim();
+      const phone = document.getElementById("f-phone").value.trim();
+      const note = document.getElementById("f-note").value.trim();
+      const isDelivery = deliveryMethod() === "giao";
+      const zone = isDelivery ? document.querySelector('input[name="zone"]:checked').value : "";
+      const address = isDelivery ? document.getElementById("f-address").value.trim() : "";
+      const payment = document.querySelector('input[name="payment"]:checked').value;
+
+      if (t.chosen.length === 0) return showMsg("error", "Bạn chưa chọn món nào — bấm + để thêm món nhé.");
+      if (name.length < 2) return showMsg("error", "Vui lòng điền tên khách.");
+      if (!/^0\d{8,10}$/.test(phone.replace(/[\s.\-]/g, ""))) return showMsg("error", "Số điện thoại chưa đúng (VD: 0912345678).");
+      if (isDelivery && address.length < 6) return showMsg("error", "Vui lòng điền địa chỉ giao hàng.");
+
+      showMsg("wait", "Đang gửi đơn... vui lòng đợi một chút.");
+      const btn = document.getElementById("btn-submit");
+      btn.disabled = true;
+
+      // Đúng định dạng staffSubmit của hệ thống Nhập đơn
+      const payload = {
+        submission_id: newSubmissionId(),
+        name, phone,
+        contact: "",
+        items: t.chosen.map((it) => ({
+          product_id: it.product_id || it.id,
+          quantity: it.qty,
+          toppings: [...it.tops]
+        })),
+        delivery_method: deliveryMethod(),
+        zone, address,
+        payment_method: payment,
+        note,
+        needs_call: false
+      };
+
+      // Gửi qua hidden iframe theo dạng GET — cả menu lẫn đơn đều đi qua
+      // doGet của script Nhập đơn (nhánh webRequest_ ta thêm vào script)
+      const form = document.createElement("form");
+      form.action = GAS_URL;
+      form.method = "GET";
+      form.target = "ume-post";
+      const field = document.createElement("input");
+      field.type = "hidden";
+      field.name = "payload";
+      field.value = JSON.stringify(payload);
+      form.appendChild(field);
+      document.body.appendChild(form);
+      form.submit();
+      form.remove();
+
+      clearTimeout(window._umeWait);
+      window._umeWait = setTimeout(() => {
+        btn.disabled = false;
+        showMsg("error", "Chưa nhận được xác nhận từ hệ thống. Kiểm tra mạng rồi bấm Gửi đơn lần nữa — đơn sẽ không bị trùng.");
+      }, 20000);
+    }
+
+    window.addEventListener("message", (ev) => {
+      if (!ev.origin.includes("googleusercontent.com") && !ev.origin.includes("google.com")) return;
+      let data;
+      try { data = JSON.parse(typeof ev.data === "string" ? ev.data : JSON.stringify(ev.data)); } catch { return; }
+      clearTimeout(window._umeWait);
+      const btn = document.getElementById("btn-submit");
+      btn.disabled = false;
+      if (!data.ok) {
+        showMsg("error", data.message || "Gửi đơn chưa thành công. Vui lòng thử lại.");
+        return;
+      }
+      const isDelivery = deliveryMethod() === "giao";
+      document.getElementById("form-msg").className = "form-msg";
+      document.getElementById("order-form").hidden = true;
+      document.getElementById("order-success").hidden = false;
+      document.getElementById("s-code").textContent = data.order_code;
+      const cups = chosenItems().reduce((s, it) => s + it.qty, 0);
+      document.getElementById("s-detail").textContent =
+        cups + " ly · Tổng " + fmt(totals().total) + " (tạm tính)" +
+        (isDelivery ? " · giao tận nơi" : " · tự đến lấy") +
+        (document.querySelector('input[name="payment"]:checked').value === "chuyen_khoan" ? " · chuyển khoản" : " · tiền mặt");
+      document.getElementById("order").scrollIntoView({ behavior: "smooth" });
+    });
+
+    function resetForm() {
+      document.getElementById("order-success").hidden = true;
+      document.getElementById("order-form").hidden = false;
+      document.getElementById("btn-submit").disabled = false;
+    }
+
+    loadMenu();
+    renderTotals();
+  </script>
+</body>
+</html>
