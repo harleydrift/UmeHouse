@@ -1,36 +1,16 @@
-# Checklist đưa landing page Ume ra ngoài (làm tại nhà, ~15 phút, miễn phí 100%)
+# Checklist đưa landing page Ume ra ngoài (làm tại nhà, ~10 phút, miễn phí 100%)
 
-**Phương án đã chọn: đồng bộ với script "Nhập đơn" có sẵn của quán** — khách đặt trên
-landing page, đơn chảy thẳng vào cùng Google Sheet và hiện trong tab "Danh sách" của
-app Nhập đơn như đơn nhập tay. Menu trên trang **tự tải live từ hệ thống** (đổi giá
-trong Sheet là trang tự cập nhật).
+**Tin tốt: không phải đụng vào script "Nhập đơn" nữa.** Bản script hiện tại của quán
+đã có sẵn cổng API cho website (kênh `landing`): website tự lấy menu/giá/xã giao/khung
+giờ từ hệ thống, và đơn khách chảy thẳng vào tab **Đơn hàng** của Sheet, có cột
+"Nguồn" = landing — đúng như đơn nhập tay. **Không sửa script, không tạo script mới,
+không tạo Sheet mới.**
 
 `index.html` đã trỏ sẵn `GAS_URL` về link hệ thống Nhập đơn — **không cần điền gì thêm**.
 
 ---
 
-## PHẦN A — Mở cổng API trong script "Nhập đơn" (10' — bạn tự làm, đã có quyền sửa)
-
-Mở script: https://script.google.com/u/0/home/projects/1lvwd2mMMZUQalx2RnalqDBSEqkDnS1K45JvbBrZX1Rmx0pHgPZaUjlKB/edit
-
-1. Copy toàn bộ nội dung file **`apps-script/tich-hop-script-nhap-don.gs`** → dán vào
-   **cuối file Code.gs** (hoặc tạo file mới trong project: ➕ → Script, đặt tên `WebOrder`)
-2. Tìm hàm **`doGet(e)`** có sẵn → thêm vào **ngay dòng đầu** đúng 1 dòng:
-   `if (webRequest_(e)) return webResponse_(e);`
-
-   Không cần đụng vào doPost hay bất kỳ code cũ nào — file tích hợp **gọi thẳng
-   `staffUiConfig()` (lấy menu) và `staffSubmit()` (lưu đơn)** vốn có của script,
-   đơn web chảy vào cùng tab "Đơn hàng" như đơn nhập tay.
-3. **Deploy → Manage deployments → ✏️ Edit → Version: New version → Deploy**
-   (sửa deployment CŨ để giữ nguyên link staff — đừng tạo deployment mới)
-4. Mở landing page → menu phải tự hiện. Nếu báo "Không tải được thực đơn":
-   Apps Script → **Executions** xem lỗi đỏ đầu tiên — thường do hàm cấu hình
-   không tên `staffUiConfig`; tìm hàm trả menu trong Logic.gs rồi đổi tên trong
-   `webMenuData_()` (file ghi chú sẵn).
-
-Chi tiết xử lý lỗi thường gặp nằm ngay đầu file `tich-hop-script-nhap-don.gs`.
-
-## PHẦN B — Đưa landing page lên mạng (10')
+## PHẦN A — Đưa landing page lên mạng (10')
 
 Folder toàn file tĩnh — không build, không cài gì. Đẩy `ume-landing/` lên:
 
@@ -46,39 +26,45 @@ Folder toàn file tĩnh — không build, không cài gì. Đẩy `ume-landing/`
 3. Link: `https://<tên-user>.github.io/<tên-repo>`
 
 > ⚠️ Landing page chạy được phải có HTTPS — Netlify/GitHub Pages/Vercel đều tự có.
+> (Nếu trước đó đã deploy bản cũ: chỉ cần kéo thả folder mới đè lên là xong.)
 
-## PHẦN C — Kiểm tra sau khi live (5')
+## PHẦN B — Kiểm tra sau khi live (5')
 
-1. Mở link công khai → thực đơn hiện đủ 8 món + giá
-2. Đặt 1 đơn thử (tên/SĐT thật) → trang hiện "🎉 Đã nhận đơn + mã UM-..."
-3. Mở app Nhập đơn → tab **Danh sách** → thấy đơn khách vừa đặt
-4. Thử đổi giá 1 món trong tab Món của Sheet → tải lại landing page → giá mới hiện ra
-
----
+1. Mở link công khai → trang hiện đủ 7 phần: Hero, Giới thiệu, Món nổi bật,
+   Thực đơn, Vì sao chọn Ume, Khu vực giao hàng, Footer
+2. Thực đơn hiện **8 món TS01–TS08 + giá 49.000đ** (tự tải từ hệ thống)
+3. Thêm món vào giỏ → bấm giỏ hàng → chọn số lượng + topping
+4. Điền tên/SĐT → chọn xã giao (phí ship hiện theo bảng trong Sheet), chọn
+   **khung giờ giao** (chỉ hiện các khung còn nhận trong ngày) hoặc "Tự đến lấy"
+   → gửi đơn → trang hiện "🎉 Đã nhận đơn + mã TS-..."
+5. Mở app Nhập đơn → tab **Đơn hàng** → thấy đơn khách vừa đặt, nguồn "landing"
 
 ## CONFIG — chỉ 1 chỗ, đã điền sẵn
 
 | Config | Ở đâu | Giá trị |
 |--------|-------|---------|
-| `GAS_URL` + `KEY` | `index.html` đầu phần `<script>` | Đã trỏ sẵn về link Nhập đơn của quán — không cần sửa |
+| `GAS_URL` | `index.html` đầu phần `<script>` | Đã trỏ sẵn về link Nhập đơn của quán — không cần sửa |
 
-### Nếu quán đổi menu/giá
-Sửa trong **tab Món của Google Sheet** (app admin) → landing page tự cập nhật,
-không phải sửa code. (Chỉ khi thêm khu vực giao mới mới cần đổi phần chip trong `index.html`.)
+### Nếu quán đổi menu/giá/phí ship
+Sửa trong **Google Sheet của quán** (tab Món / Phí ship) → landing page tự cập nhật,
+không phải sửa code.
 
-## Phương án dự phòng (nếu bạn kia không mở được API)
-
-Tạo hệ thống nhận đơn riêng của bạn theo `HUONG-DAN-GAS.md` (Google Sheet +
-Apps Script riêng, 15'), rồi đổi `GAS_URL` trong `index.html` sang link của bạn.
-Form gửi đúng kiểu dữ liệu đơn giản hơn (tên món thay vì product_id) — file
-`apps-script/Code.gs` kèm sẵn cho phương án này.
+### Thay ảnh sản phẩm
+Mặc định mọi món dùng ảnh `tra_sua.jpeg`. Khi có ảnh riêng từng món:
+1. Đặt file ảnh vào cùng folder (VD `ts01.jpg`)
+2. Mở `index.html`, tìm dòng `const IMG_BY_ID = {};` → sửa thành
+   `const IMG_BY_ID = { "TS01": "ts01.jpg" };`
 
 ## Câu hỏi thường gặp
 
 **Đơn khách có trùng với đơn admin nhập không?** Không — mỗi đơn có `submission_id`
-riêng và mã đơn do hệ thống sinh, admin thấy trong Danh sách với nguồn khách đặt.
+riêng, hệ thống tự chống trùng; mã đơn do hệ thống sinh, admin thấy trong tab Đơn hàng.
 
-**Nếu khách bấm Gửi đơn mà mạng lỗi?** Trang nhắc bấm lại — mỗi lần gửi có
-`submission_id` riêng nên hệ thống không lưu trùng.
+**Nếu khách bấm Gửi đơn mà mạng lỗi?** Trang nhắc bấm lại — vì giữ nguyên
+`submission_id` cho tới khi gửi thành công nên hệ thống không lưu trùng.
 
-**Ai xem được đơn?** Ai đang có quyền dùng app Nhập đơn (key + sheet của quán).
+**Quán đóng nhận đơn thì sao?** Trang tự hiện banner "tạm đóng nhận đơn" khi
+bạn tắt nhận đơn trong hệ thống — khách vẫn xem menu nhưng không gửi được.
+
+**Chuyển khoản?** Trang chỉ hiện tuỳ chọn chuyển khoản khi hệ thống bật
+(`transfer_enabled`) — hiện đang tắt, khách thấy duy nhất "Tiền mặt khi nhận".

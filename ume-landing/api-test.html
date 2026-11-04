@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="vi">
+<head><meta charset="utf-8"><title>API test</title></head>
+<body>
+<pre id="out" style="white-space:pre-wrap">Đang test...</pre>
+<script>
+const GAS_URL = "https://script.google.com/macros/s/AKfycbwXLjugd21GN2EN7IRQBpanpcYPIfmdnTQKt_A3_vem_31eDu88DBBQ8IfxWlwyw3Ci2w/exec";
+const log = (m) => { document.getElementById("out").textContent += "\n" + m; };
+document.getElementById("out").textContent = "Bắt đầu...";
+
+function base() {
+  return {
+    submission_id: "webtest-" + Date.now() + "-" + Math.random().toString(36).slice(2, 8),
+    name: "TEST WEBSITE (xoa)",
+    phone: "0999000111",
+    contact: "",
+    items: [{ product_id: "TS01", quantity: 1, toppings: [] }],
+    delivery_method: "tu_lay",
+    zone: "",
+    address: "",
+    payment_method: "cod",
+    note: "don test tu landing",
+    needs_call: false
+  };
+}
+
+async function post(label, payload) {
+  try {
+    const r = await fetch(GAS_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload),
+      redirect: "follow"
+    });
+    log(label + " => " + (await r.text()).slice(0, 300));
+  } catch (e) { log(label + " => FAIL " + e); }
+}
+
+(async () => {
+  await post("A1 (items 1 ly, tu_lay)", base());
+  const b = base(); b.delivery_method = "giao"; b.zone = "Đồng Quang"; b.address = "test dia chi giao";
+  await post("B1 (giao, zone=Đồng Quang)", b);
+  const c = base(); c.source = "landing";
+  await post("C1 (thêm source=landing)", c);
+})();
+</script>
+</body>
+</html>
