@@ -40,7 +40,7 @@
     a { color: inherit; }
     button { font-family: inherit; cursor: pointer; }
     .wrap { max-width: 1120px; margin: 0 auto; padding: 0 18px; }
-    section { scroll-margin-top: 70px; }
+    section { scroll-margin-top: 80px; }
 
     /* ===== nút ===== */
     .btn {
@@ -59,9 +59,10 @@
 
     /* ===== thanh trên ===== */
     .topbar { position: sticky; top: 0; z-index: 40; background: rgba(255, 244, 223, .94); backdrop-filter: blur(8px); border-bottom: 2px solid var(--ink); }
-    .topbar .wrap { display: flex; align-items: center; height: 60px; gap: 10px; }
-    .logo { display: flex; align-items: center; gap: 8px; font-weight: 900; font-size: 24px; letter-spacing: -1px; text-decoration: none; }
-    .logo img { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--ink); }
+    .topbar .wrap { display: flex; align-items: center; height: 72px; gap: 10px; }
+    .logo { display: flex; align-items: center; text-decoration: none; transition: transform .15s ease; }
+    .logo img { height: 52px; width: auto; }
+    .logo:hover { transform: rotate(-3deg); }
     .topnav { display: flex; gap: 2px; margin-left: auto; }
     .topnav a { text-decoration: none; font-weight: 700; font-size: 14px; padding: 8px 12px; border-radius: 10px; }
     .topnav a:hover { background: var(--cream-2); }
@@ -279,6 +280,8 @@
     /* ===== điện thoại ===== */
     @media (max-width: 760px) {
       .topnav { display: none; }
+      .topbar .wrap { height: 62px; }
+      .logo img { height: 42px; }
       #cart-btn { margin-left: auto; }
       .hero { padding-top: 16px; }
       .hero .hero-grid { grid-template-columns: 46px 88px minmax(0, 1fr); gap: 0 12px; }
@@ -313,7 +316,7 @@
   <!-- ===== thanh trên ===== -->
   <header class="topbar">
     <div class="wrap">
-      <a class="logo" href="#top"><img src="favicon.png" alt="" />ume.</a>
+      <a class="logo" href="#top" aria-label="Ume, về đầu trang"><img src="img/logo-ink.png" alt="Ume" width="90" height="52" /></a>
       <nav class="topnav" aria-label="Điều hướng">
         <a href="#dai">Dài cỡ nào</a>
         <a href="#menu">Menu</a>
@@ -425,7 +428,7 @@
   <footer id="lien-he">
     <div class="wrap foot">
       <div>
-        <h4>ume.</h4>
+        <h4><img src="img/logo-cream.png" alt="Ume" style="height:64px;width:auto" loading="lazy" /></h4>
         <p>Trà sữa Điếu Cày siêu dài · Quốc Oai, Hà Nội</p>
         <p>Nhận đơn theo khung: <b id="foot-slots">9–11 · 15–17 · 20–22</b></p>
       </div>
