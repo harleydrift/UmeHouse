@@ -415,9 +415,10 @@
         </div>
       </div>
       <div class="card">
-        <span class="lbl">Khung giờ giao hôm nay</span>
+        <span class="lbl" id="slot-today-lbl">Khung giờ giao hôm nay</span>
         <div class="chips" id="slot-today"><span>9–11h</span><span>15–17h</span><span>20–22h</span></div>
         <p class="note">Đặt trước, quán pha và giao trong khung bạn chọn.</p>
+        <p class="note" id="slot-week"></p>
         <span class="lbl" style="margin-top:18px">Muốn tự qua lấy?</span>
         <p style="font-size:14px">Quán ở Quốc Oai, Hà Nội. Đặt trước trên web, quán gọi khi gần xong.</p>
         <a class="btn btn-paper btn-sm" style="margin-top:10px" href="https://maps.app.goo.gl/2AozaFDTQQqv112S7?g_st=ic" target="_blank" rel="noopener">📍 Chỉ đường tới quán</a>
@@ -787,7 +788,6 @@
         : "<li>Hiện quán chỉ nhận tự qua lấy.</li>";
       byId("q-zone").innerHTML = '<option value="">— Chọn xã —</option>' +
         communes.map((c) => `<option value="${esc(c.name)}">${esc(c.name)}</option>`).join("");
-      byId("foot-slots").textContent = slotsText(CFG.delivery_slots);
       renderQuote();
     }
     function slotsText(slots) {
@@ -838,41 +838,96 @@
       renderTotals();
     }
 
-    /* ---------- khung giờ (giờ Việt Nam) ---------- */
+    /* ---------- khung giờ (giờ Việt Nam) ----------
+       Cùng quy tắc với availableSlotsFor trong Apps Script:
+       - delivery_all_day: 'off' theo khung; 'weekend' Thứ 7, Chủ nhật giao cả ngày; 'always' ngày nào cũng cả ngày.
+         Cả ngày = một khung từ đầu khung sớm nhất tới cuối khung muộn nhất, ví dụ 9–22h.
+       - Khung ẩn khi còn ít hơn slot_lead_minutes tới giờ kết thúc.
+       - Hết khung hôm nay thì cho đặt trước khung của ngày mai.
+       Giá trị gửi đi phải đúng dạng server so khớp: "2026-11-07 09–11h" (giờ có số 0 đầu, gạch –). */
+    const pad2 = (n) => String(n).padStart(2, "0");
     function vnNow() { const now = new Date(); return new Date(now.getTime() + (now.getTimezoneOffset() + 420) * 60000); }
-    function vnDateStr() { const v = vnNow(); return v.getFullYear() + "-" + String(v.getMonth() + 1).padStart(2, "0") + "-" + String(v.getDate()).padStart(2, "0"); }
+    function dateStr(d) { return d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate()); }
     function vnMinutes() { const v = vnNow(); return v.getHours() * 60 + v.getMinutes(); }
-    function openSlots() {
+    function isWeekendDay(d) { const x = d.getDay(); return x === 0 || x === 6; }
+    function allDayMode() { return (CFG && CFG.delivery_all_day) || "off"; }
+    function allDaySlot() {
+      const slots = (CFG && CFG.delivery_slots) || [];
+      if (!slots.length) return null;
+      return { start: Math.min(...slots.map((s) => s.start)), end: Math.max(...slots.map((s) => s.end)), all_day: true };
+    }
+    function isAllDay(d) { const m = allDayMode(); return m === "always" || (m === "weekend" && isWeekendDay(d)); }
+    function slotsForDay(d) {
+      if (isAllDay(d)) { const w = allDaySlot(); return w ? [w] : []; }
+      return (CFG && CFG.delivery_slots) || [];
+    }
+    const slotLabel = (s) => (s.all_day ? "cả ngày " : "") + s.start + "–" + s.end + "h";
+    /** Khung hôm nay còn đặt được. */
+    function todaySlots() {
       if (!CFG) return [];
       const lead = Number(CFG.slot_lead_minutes) || 0;
       const mins = vnMinutes();
-      return (CFG.delivery_slots || []).filter((s) => Number(s.end) * 60 - mins > lead);
+      return slotsForDay(vnNow()).filter((s) => Number(s.end) * 60 - mins > lead);
+    }
+    function tomorrowDate() { const n = vnNow(); return new Date(n.getFullYear(), n.getMonth(), n.getDate() + 1); }
+    /** Khung chọn được trong giỏ: hôm nay nếu còn, hết thì ngày mai. */
+    function bookableSlots() {
+      const today = todaySlots();
+      const make = (d, prefix) => (s) => ({ value: dateStr(d) + " " + pad2(s.start) + "–" + pad2(s.end) + "h", label: prefix + slotLabel(s) });
+      if (today.length) return { tomorrow: false, list: today.map(make(vnNow(), "")) };
+      const t = tomorrowDate();
+      return { tomorrow: true, list: slotsForDay(t).map(make(t, "Mai ")) };
+    }
+    /** "9–11 · 15–17 · 20–22"; bật giao cả ngày thì ghi rõ ngày nào cả ngày. */
+    function scheduleText() {
+      const week = slotsText(CFG.delivery_slots);
+      const w = allDaySlot();
+      if (!w || allDayMode() === "off") return week;
+      const whole = "cả ngày " + w.start + "–" + w.end + "h";
+      return allDayMode() === "always" ? whole : "T2–T6: " + week + " · T7, CN: " + whole;
     }
     function renderSlots() {
-      const open = openSlots();
-      const all = CFG.delivery_slots || [];
-      byId("slot-today").innerHTML = all.length
-        ? all.map((s) => {
-            const isOpen = open.includes(s);
-            const cls = isOpen ? (s === open[0] ? "on" : "") : "off";
-            return `<span class="${cls}">${s.start}–${s.end}h${s === open[0] ? " · còn nhận" : ""}</span>`;
-          }).join("")
-        : "<span>Theo giờ quán mở</span>";
+      if (!CFG) return;
+      const today = todaySlots();
+      const all = slotsForDay(vnNow());
+      byId("foot-slots").textContent = scheduleText();
+      byId("slot-week").textContent = allDayMode() === "weekend" ? "Lịch giao: " + scheduleText() : "";
 
+      // Mục "Ship tới xã bạn": khung hôm nay; hết rồi thì khung ngày mai.
+      if (!today.length && all.length) {
+        const t = tomorrowDate();
+        byId("slot-today-lbl").textContent = "Hôm nay hết khung, đặt trước cho ngày mai";
+        byId("slot-today").innerHTML = slotsForDay(t).map((s, i) =>
+          `<span class="${i === 0 ? "on" : ""}">${slotLabel(s)}${i === 0 ? " · mai" : ""}</span>`).join("");
+      } else {
+        byId("slot-today-lbl").textContent = isAllDay(vnNow()) ? "Hôm nay giao cả ngày" : "Khung giờ giao hôm nay";
+        byId("slot-today").innerHTML = all.length
+          ? all.map((s) => {
+              const same = (a, b) => a && b && a.start === b.start && a.end === b.end;
+              const isOpen = today.some((t) => same(t, s));
+              const cls = isOpen ? (same(s, today[0]) ? "on" : "") : "off";
+              return `<span class="${cls}">${slotLabel(s)}${same(s, today[0]) ? " · còn nhận" : ""}</span>`;
+            }).join("")
+          : "<span>Theo giờ quán mở</span>";
+      }
+
+      // Giỏ hàng
       const box = byId("slot-chips");
       const cur = chosenSlot();
-      if (!open.length) {
-        box.innerHTML = '<span class="note" style="margin:0">Hôm nay hết khung ship rồi. Bạn vẫn chọn "Tự qua quán lấy" được nhé.</span>';
+      const { tomorrow, list } = bookableSlots();
+      if (!list.length) {
+        box.innerHTML = '<span class="note" style="margin:0">Quán chưa mở khung ship, bạn chọn "Tự qua quán lấy" nhé.</span>';
         byId("slot-note").textContent = "";
         return;
       }
-      box.innerHTML = open.map((s, i) => {
-        const v = s.start + "-" + s.end;
-        const checked = cur ? cur === v : i === 0;
-        return `<label class="chip"><input type="radio" name="slot" value="${v}" ${checked ? "checked" : ""} /><span>${s.start}–${s.end}h</span></label>`;
+      box.innerHTML = list.map((o, i) => {
+        const checked = cur ? cur === o.value : i === 0;
+        return `<label class="chip"><input type="radio" name="slot" value="${o.value}" ${checked ? "checked" : ""} /><span>${o.label}</span></label>`;
       }).join("");
       if (!document.querySelector('input[name="slot"]:checked')) box.querySelector("input").checked = true;
-      byId("slot-note").textContent = "Quán giao trong khung bạn chọn, cần đổi giờ quán sẽ gọi.";
+      byId("slot-note").textContent = tomorrow
+        ? "Hôm nay hết khung giờ nhận ship, đơn này quán giao ngày mai theo khung bạn chọn."
+        : "Quán giao trong khung bạn chọn, cần đổi giờ quán sẽ gọi.";
     }
     function chosenSlot() { const el = document.querySelector('input[name="slot"]:checked'); return el ? el.value : ""; }
 
@@ -884,10 +939,12 @@
         tx.textContent = "Quán đang tạm nghỉ nhận đơn. Menu vẫn xem được, quay lại sau nhé.";
         return;
       }
-      const open = openSlots();
-      st.className = openSlots().length ? "status" : "status closed";
+      const open = todaySlots();
+      st.className = open.length ? "status" : "status closed";
       tx.textContent = open.length
-        ? "Đang nhận đơn · khung gần nhất còn nhận: " + open[0].start + "–" + open[0].end + "h hôm nay"
+        ? (open[0].all_day
+            ? "Đang nhận đơn · hôm nay giao cả ngày " + open[0].start + "–" + open[0].end + "h"
+            : "Đang nhận đơn · khung gần nhất còn nhận: " + open[0].start + "–" + open[0].end + "h hôm nay")
         : "Hôm nay hết khung giờ nhận ship. Vẫn đặt tự qua lấy được, hoặc đặt hàng trước cho sáng mai nhé.";
     }
     setInterval(() => { if (CFG) { renderSlots(); renderStatus(); } }, 60000);
@@ -1039,7 +1096,7 @@
       if (name.length < 2) return showMsg("error", "Bạn điền tên giúp quán nhé.");
       if (!/^0\d{8,10}$/.test(phone)) return showMsg("error", "Số điện thoại chưa đúng (VD: 0912345678).");
       if (isGiao && !commune) return showMsg("error", "Bạn chọn xã để quán tính phí ship nhé.");
-      if (isGiao && !slot) return showMsg("error", "Hôm nay hết khung ship, bạn chọn tự qua lấy nhé.");
+      if (isGiao && !slot) return showMsg("error", "Bạn chọn khung giờ giao giúp quán nhé.");
       if (isGiao && address.length < 6) return showMsg("error", "Bạn ghi rõ địa chỉ giúp quán (thôn/xóm, số nhà).");
       if (CFG && CFG.orders_open === false) return showMsg("error", "Quán đang tạm nghỉ nhận đơn, bạn quay lại sau nhé.");
 
@@ -1052,7 +1109,7 @@
         delivery_method: deliveryMethod(),
         zone: isGiao && commune ? commune.name : "",
         address,
-        delivery_slot: slot ? vnDateStr() + " " + slot.replace("-", "–") + "h" : "",
+        delivery_slot: slot,
         payment_method: payEl ? payEl.value : "cod",
         note,
         needs_call: false
