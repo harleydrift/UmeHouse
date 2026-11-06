@@ -1,0 +1,3 @@
+# Netlify: web tĩnh, không cần build. Đường dẫn tính từ gốc repo.
+[build]
+  publish = "ume-landing"
