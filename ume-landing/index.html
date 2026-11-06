@@ -3,576 +3,497 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ume — Trà sữa Quốc Oai · Một khoảng dừng nhỏ, một ngụm trà ngon</title>
-  <meta name="description" content="Ume — trà sữa nhà làm tại QUỐC OAI, Hà Nội. Xem menu, đặt online ngay trên trang, giao tận các xã lân cận." />
+  <title>Ume · Trà sữa Điếu Cày siêu dài · Quốc Oai</title>
+  <meta name="description" content="Trà sữa chai dài 45cm của Ume ở Quốc Oai. 8 vị, đặt ngay trên web, ship theo khung giờ 9–11h, 15–17h, 20–22h." />
+  <meta property="og:title" content="Ume · Trà sữa Điếu Cày siêu dài" />
+  <meta property="og:description" content="8 vị chai dài, ship khắp Quốc Oai. Đặt trên web, chọn khung giờ là xong." />
+  <meta property="og:image" content="https://umehouse.netlify.app/img/og.jpg" />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#FFF4DF" />
   <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="preload" as="image" href="img/hero-bottle.webp" />
   <style>
+    /* Hướng B "Thước kẻ" — xem _bmad-output/planning-artifacts/ux-designs/ux-CN8N-2026-11-06 */
     :root {
-      --cream: #fbf8f4;
-      --cream-2: #f3ece2;
-      --brown: #8a6f52;
-      --brown-deep: #55402d;
-      --tan: #ccb79e;
-      --taupe: #b3a08a;
-      --ink: #3f3226;
-      --line: #e9e0d3;
-      --white: #ffffff;
-      --green: #4e7a4a;
-      --radius: 20px;
-      --shadow: 0 10px 30px rgba(85, 64, 45, 0.10);
+      --cream: #FFF4DF;
+      --cream-2: #FBE7C4;
+      --paper: #FFFFFF;
+      --ink: #22160D;
+      --ink-2: #6B5A4A;
+      --orange: #F2661C;
+      --mango: #FFC93C;
+      --green: #2E6B34;
+      --line: #22160D;
+      --radius: 14px;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: "Be Vietnam Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-      background: var(--cream);
-      color: var(--ink);
-      line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
-      overflow-x: clip; /* không bao giờ có thanh cuộn ngang */
+      font-family: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      background: var(--cream); color: var(--ink); line-height: 1.55;
+      -webkit-font-smoothing: antialiased; overflow-x: clip;
     }
     img { display: block; max-width: 100%; }
-    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 22px; }
-    .serif { font-family: "Playfair Display", Georgia, serif; }
+    a { color: inherit; }
+    button { font-family: inherit; cursor: pointer; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 18px; }
+    section { scroll-margin-top: 70px; }
 
-    /* ===== top bar ===== */
-    .topbar {
-      position: sticky; top: 0; z-index: 50;
-      background: rgba(251, 248, 244, 0.92); backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--line);
-    }
-    .topbar .wrap { display: flex; align-items: center; gap: 18px; height: 62px; }
-    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--brown-deep); }
-    .brand img { width: 38px; height: 38px; border-radius: 50%; }
-    .brand b { font-family: "Playfair Display", Georgia, serif; font-size: 21px; letter-spacing: 2px; }
-    .topnav { display: flex; gap: 4px; margin-left: auto; }
-    .topnav a {
-      padding: 8px 14px; border-radius: 999px; text-decoration: none;
-      color: var(--ink); font-size: 14.5px; font-weight: 500;
-    }
-    .topnav a:hover { background: var(--cream-2); color: var(--brown-deep); }
-    /* nút menu điện thoại — ẩn trên desktop */
-    .hamburger {
-      display: none; margin-left: auto;
-      background: none; border: 1px solid var(--line); border-radius: 12px;
-      width: 44px; height: 44px; font-size: 20px; color: var(--brown-deep); cursor: pointer;
-      align-items: center; justify-content: center; flex-shrink: 0;
-    }
-    .mobilenav { display: none; border-top: 1px solid var(--line); background: var(--white); }
-    .mobilenav.show { display: block; }
-    .mobilenav a {
-      display: block; padding: 13px 24px; text-decoration: none; color: var(--ink);
-      font-size: 15.5px; font-weight: 500; border-bottom: 1px solid var(--line);
-    }
-    .mobilenav a:last-child { border-bottom: none; }
+    /* ===== nút ===== */
     .btn {
-      display: inline-block; border: none; cursor: pointer; text-decoration: none; text-align: center;
-      padding: 13px 28px; border-radius: 999px; font-family: inherit;
-      font-size: 15px; font-weight: 600; line-height: 1.4;
-      transition: transform .15s ease, box-shadow .15s ease, opacity .15s;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      border: 2px solid var(--line); border-radius: 12px; padding: 13px 20px;
+      font-weight: 800; font-size: 15px; text-decoration: none; line-height: 1.2;
+      transition: transform .12s ease, box-shadow .12s ease;
     }
-    .btn:hover { transform: translateY(-2px); }
-    .btn-primary { background: var(--brown); color: #fff; box-shadow: 0 6px 16px rgba(138, 111, 82, .35); }
-    .btn-ghost { background: transparent; color: var(--brown-deep); border: 1.5px solid var(--brown); }
-    .btn-sm { padding: 9px 18px; font-size: 13.5px; }
-    .btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+    .btn-ink { background: var(--ink); color: var(--cream); }
+    .btn-orange { background: var(--orange); color: #fff; box-shadow: 4px 4px 0 var(--ink); }
+    .btn-paper { background: var(--paper); color: var(--ink); }
+    .btn:hover { transform: translate(-1px, -1px); }
+    .btn-orange:hover { box-shadow: 5px 5px 0 var(--ink); }
+    .btn:active { transform: translate(2px, 2px); box-shadow: none; }
+    .btn-sm { padding: 8px 12px; font-size: 13px; border-radius: 10px; }
+
+    /* ===== thanh trên ===== */
+    .topbar { position: sticky; top: 0; z-index: 40; background: rgba(255, 244, 223, .94); backdrop-filter: blur(8px); border-bottom: 2px solid var(--ink); }
+    .topbar .wrap { display: flex; align-items: center; height: 60px; gap: 10px; }
+    .logo { display: flex; align-items: center; gap: 8px; font-weight: 900; font-size: 24px; letter-spacing: -1px; text-decoration: none; }
+    .logo img { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--ink); }
+    .topnav { display: flex; gap: 2px; margin-left: auto; }
+    .topnav a { text-decoration: none; font-weight: 700; font-size: 14px; padding: 8px 12px; border-radius: 10px; }
+    .topnav a:hover { background: var(--cream-2); }
+    #cart-btn { margin-left: 8px; }
+    #cart-btn .n { background: var(--mango); color: var(--ink); border-radius: 99px; padding: 0 7px; font-size: 12px; }
 
     /* ===== hero ===== */
-    /* padding-block thay padding shorthand: không đè mất padding ngang của .wrap trên cùng phần tử */
-    .hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: 40px; align-items: center; padding-block: 64px 56px; }
-    .kicker { font-size: 12px; letter-spacing: 4px; text-transform: uppercase; color: var(--taupe); font-weight: 600; }
-    .hero h1 { font-size: 52px; line-height: 1.12; color: var(--brown-deep); margin: 14px 0 8px; font-weight: 800; }
-    .hero .slogan { font-size: 19px; color: var(--brown); font-weight: 500; margin-bottom: 16px; }
-    .hero p.lead { font-size: 15.5px; color: var(--taupe); max-width: 46ch; margin-bottom: 26px; }
-    .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
-    .hero-img { border-radius: 28px; box-shadow: var(--shadow); overflow: hidden; }
-    .hero-img { width: 100%; height: 100%; min-height: 380px; object-fit: cover; display: block; }
-    .hero-meta { display: flex; gap: 26px; margin-top: 28px; flex-wrap: wrap; }
-    .hero-meta div b { display: block; font-size: 20px; color: var(--brown-deep); }
-    .hero-meta div span { font-size: 12.5px; color: var(--taupe); }
-
-    section.block { padding: 56px 0; }
-    .sec-head { text-align: center; max-width: 640px; margin: 0 auto 34px; }
-    .sec-title { font-family: "Playfair Display", Georgia, serif; font-size: 32px; color: var(--brown-deep); }
-    .sec-sub { color: var(--taupe); font-size: 14.5px; margin-top: 8px; }
-    .sec-line { width: 44px; height: 3px; background: var(--tan); border-radius: 2px; margin: 14px auto 0; }
-
-    /* ===== about ===== */
-    .about { display: grid; grid-template-columns: 1fr 1.1fr; gap: 40px; align-items: center; }
-    .about-img { border-radius: 24px; box-shadow: var(--shadow); object-fit: cover; width: 100%; height: 100%; min-height: 320px; }
-    .about-points { list-style: none; margin-top: 18px; display: grid; gap: 10px; }
-    .about-points li { display: flex; gap: 10px; font-size: 14.5px; }
-    .about-points .dot { color: var(--brown); font-weight: 700; }
-
-    /* ===== products ===== */
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
-    .card {
-      background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
-      overflow: hidden; display: flex; flex-direction: column;
-      transition: transform .18s ease, box-shadow .18s ease;
+    .hero { padding: 26px 0 30px; }
+    .hero { --hero-h: 480px; }
+    .hero .hero-grid { display: grid; grid-template-columns: 70px 120px minmax(0, 1fr) auto; gap: 0 18px; align-items: stretch; }
+    .hero-side { display: flex; gap: 10px; align-items: flex-end; padding-bottom: 6px; }
+    .hero-side img { width: 46px; object-fit: cover; border-radius: 8px 8px 4px 4px; border: 2px solid var(--ink); }
+    .hero-side img:nth-child(odd) { height: 330px; }
+    .hero-side img:nth-child(even) { height: 380px; }
+    @media (max-width: 1060px) { .hero-side { display: none; } }
+    .ruler {
+      position: relative; height: var(--hero-h); align-self: start;
+      /* 45cm: vạch nhỏ mỗi 5cm (1/9), vạch lớn mỗi 10cm (2/9), đo từ đáy lên */
+      background:
+        repeating-linear-gradient(to top, var(--ink) 0 2px, transparent 2px 11.1111%) left bottom / 14px 100% no-repeat,
+        repeating-linear-gradient(to top, var(--ink) 0 3px, transparent 3px 22.2222%) left bottom / 26px 100% no-repeat;
+      border-left: 3px solid var(--ink);
     }
-    .card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
-    .card .thumb { position: relative; aspect-ratio: 4/3; overflow: hidden; background: var(--cream-2); }
-    .card .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
-    .card:hover .thumb img { transform: scale(1.05); }
-    .card .price-tag {
-      position: absolute; right: 10px; bottom: 10px; background: rgba(255,255,255,.94);
-      color: var(--brown-deep); font-weight: 700; font-size: 14px;
-      padding: 5px 12px; border-radius: 999px; box-shadow: 0 2px 8px rgba(0,0,0,.12);
+    .ruler::before { content: ""; position: absolute; left: -3px; top: 0; width: 26px; height: 3px; background: var(--ink); }
+    .ruler span { position: absolute; left: 30px; transform: translateY(50%); font-size: 12px; font-weight: 800; line-height: 1; white-space: nowrap; }
+    .ruler span.top { transform: none; top: -2px; bottom: auto !important; color: var(--orange); font-size: 14px; font-weight: 900; }
+    .hero-bottle { position: relative; }
+    .hero-bottle { display: flex; justify-content: center; }
+    .hero-bottle img { height: var(--hero-h); width: auto; object-fit: contain; mix-blend-mode: multiply; }
+    .hero-copy { display: flex; flex-direction: column; padding-top: 6px; }
+    .kicker { font-size: 12px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase; color: var(--ink-2); }
+    .hero h1 { font-size: clamp(48px, 9vw, 104px); font-weight: 900; line-height: .9; letter-spacing: -2px; margin-top: 10px; }
+    .hero h1 em { font-style: normal; color: var(--orange); }
+    .hero-copy p.lead { font-size: 16px; margin-top: 14px; max-width: 430px; }
+    .sticker {
+      width: 112px; height: 112px; border-radius: 50%; background: var(--mango); border: 2px solid var(--ink);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+      transform: rotate(-10deg); font-weight: 900; margin-top: 18px; line-height: 1.05;
     }
-    .card .body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
-    .card h3 { font-size: 16px; color: var(--brown-deep); font-weight: 600; }
-    .card .desc { font-size: 13px; color: var(--taupe); flex: 1; }
-    .card .add { margin-top: 6px; }
+    .sticker b { font-size: 32px; letter-spacing: -1px; }
+    .sticker small { font-size: 11px; font-weight: 800; letter-spacing: .5px; }
+    .hero-ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; padding-top: 22px; }
 
-    /* ===== why ===== */
-    .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
-    .why {
-      background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px;
+    /* ===== dải trạng thái ===== */
+    .status {
+      display: flex; gap: 10px; align-items: center; background: var(--ink); color: var(--cream);
+      border-radius: 12px; padding: 11px 14px; font-size: 14px; font-weight: 600; margin-top: 22px;
     }
-    .why .ico { font-size: 26px; }
-    .why h3 { font-size: 15.5px; color: var(--brown-deep); margin: 8px 0 4px; }
-    .why p { font-size: 13.5px; color: var(--taupe); }
+    .status .dot { width: 10px; height: 10px; border-radius: 50%; background: #6BD46F; flex: none; box-shadow: 0 0 0 4px rgba(107, 212, 111, .25); }
+    .status.closed { color: var(--mango); }
+    .status.closed .dot { background: var(--mango); box-shadow: 0 0 0 4px rgba(255, 201, 60, .25); }
 
-    /* ===== delivery ===== */
-    .delivery-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 30px; align-items: start; }
-    .fee-box { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; }
-    .fee-box h3 { font-size: 15px; color: var(--brown-deep); margin-bottom: 10px; }
-    .fee-list { list-style: none; max-height: 320px; overflow: auto; }
-    .fee-list li { display: flex; justify-content: space-between; gap: 10px; padding: 7px 0; border-bottom: 1px dashed var(--line); font-size: 14px; }
-    .fee-list li:last-child { border-bottom: none; }
-    .fee-list .fee { color: var(--brown); font-weight: 600; white-space: nowrap; }
-    .fee-note { font-size: 12.5px; color: var(--taupe); margin-top: 10px; }
+    /* ===== section chung ===== */
+    .block { padding: 54px 0; }
+    .block.alt { background: var(--cream-2); border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
+    .h2 { font-size: clamp(32px, 5vw, 48px); font-weight: 900; letter-spacing: -1.5px; line-height: 1; }
+    .sub { color: var(--ink-2); font-size: 15px; margin-top: 8px; }
+
+    /* ===== dài cỡ này nè ===== */
+    .long { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: center; }
+    .long figure { position: relative; }
+    .long figure img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 18px; border: 2px solid var(--ink); }
+    .long .tag {
+      position: absolute; right: 14px; top: 38%; background: var(--mango); border: 2px solid var(--ink);
+      font-weight: 900; padding: 6px 12px; border-radius: 8px; transform: rotate(-7deg); box-shadow: 3px 3px 0 var(--ink);
+    }
+    .facts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .facts span { background: var(--paper); border: 2px solid var(--ink); border-radius: 99px; padding: 7px 14px; font-weight: 800; font-size: 14px; }
+
+    /* ===== kệ chai (menu) ===== */
+    .shelf-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
+    .shelf-arrows { display: flex; gap: 8px; }
+    .shelf-arrows button {
+      width: 46px; height: 46px; border-radius: 50%; border: 2px solid var(--ink); background: var(--paper);
+      font-size: 20px; font-weight: 900; display: grid; place-items: center;
+    }
+    .shelf-arrows button:disabled { opacity: .3; cursor: default; }
+    .shelf {
+      display: flex; gap: 16px; overflow-x: auto; overflow-y: hidden;
+      scroll-behavior: auto;                 /* cuộn bằng JS mượt riêng, không để CSS smooth chen vào */
+      overscroll-behavior-x: contain;        /* không kích hoạt vuốt "quay lại trang" trên trackpad */
+      padding: 22px 18px 18px; margin: 0 -18px;
+      scrollbar-width: none; cursor: grab; user-select: none; -webkit-user-select: none;
+      outline: none;
+    }
+    .shelf::-webkit-scrollbar { display: none; }
+    .shelf.dragging { cursor: grabbing; }
+    .shelf:focus-visible { box-shadow: inset 0 0 0 3px var(--orange); border-radius: 12px; }
+    .item {
+      flex: 0 0 172px; background: var(--paper); border: 2px solid var(--ink); border-radius: 16px;
+      padding: 14px 12px 12px; display: flex; flex-direction: column; align-items: center; text-align: center;
+    }
+    .item img { width: 64px; height: 300px; object-fit: cover; border-radius: 8px; pointer-events: none; -webkit-user-drag: none; }
+    .item img[src*="real-"] { width: auto; max-width: 100%; object-fit: contain; border-radius: 0; mix-blend-mode: multiply; }
+    .item { position: relative; }
+    .item .illu { position: absolute; top: 10px; right: 10px; font-size: 10.5px; font-weight: 700; color: var(--ink-2); background: var(--cream); border-radius: 6px; padding: 2px 6px; }
+    .item h3 { font-size: 15px; font-weight: 800; line-height: 1.2; margin-top: 10px; min-height: 36px; }
+    .item p { font-size: 12.5px; color: var(--ink-2); line-height: 1.35; margin-top: 4px; flex: 1; }
+    .item .add { width: 100%; margin-top: 10px; }
+    .shelf-progress { height: 4px; background: rgba(34, 22, 13, .12); border-radius: 4px; margin-top: 6px; overflow: hidden; }
+    .shelf-progress i { display: block; height: 100%; width: 20%; background: var(--ink); border-radius: 4px; transform-origin: left; }
+    .menu-loading { padding: 40px 0; color: var(--ink-2); }
+    .menu-loading button { margin-left: 8px; border: 2px solid var(--ink); background: var(--paper); border-radius: 8px; padding: 4px 10px; font-weight: 700; }
+    .free-hint { font-size: 13px; color: var(--ink-2); margin-top: 12px; }
+
+    /* ===== ship ===== */
+    .ship { display: grid; grid-template-columns: 1.1fr .9fr; gap: 26px; align-items: start; }
+    .card { background: var(--paper); border: 2px solid var(--ink); border-radius: 18px; padding: 20px; }
+    .lbl { display: block; font-weight: 800; font-size: 14px; margin-bottom: 6px; }
+    select, input, textarea {
+      width: 100%; font: inherit; font-size: 16px; color: var(--ink); background: var(--paper);
+      border: 2px solid var(--ink); border-radius: 12px; padding: 11px 12px;
+    }
+    textarea { min-height: 70px; resize: vertical; }
+    select:focus, input:focus, textarea:focus { outline: 3px solid var(--mango); outline-offset: 1px; }
+    .quote { margin-top: 14px; font-size: 16px; min-height: 48px; }
+    .quote b { font-size: 26px; font-weight: 900; }
+    .quote .ok { color: var(--green); font-weight: 800; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .chips span { border: 2px solid var(--ink); border-radius: 99px; padding: 5px 12px; font-weight: 700; font-size: 14px; background: var(--paper); }
+    .chips .on { background: var(--green); color: #fff; border-color: var(--green); }
+    .chips .off { opacity: .4; text-decoration: line-through; }
+    details.fees { margin-top: 16px; }
+    details.fees summary { cursor: pointer; font-weight: 800; font-size: 14px; }
+    .fee-list { list-style: none; margin-top: 10px; columns: 2; column-gap: 18px; font-size: 14px; }
+    .fee-list li { display: flex; justify-content: space-between; gap: 8px; padding: 4px 0; border-bottom: 1px dashed rgba(34, 22, 13, .2); break-inside: avoid; }
+    .fee-list .fee { font-weight: 700; white-space: nowrap; }
 
     /* ===== footer ===== */
-    footer { background: var(--brown-deep); color: #f0e7db; margin-top: 40px; }
-    .foot { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 30px; padding-block: 44px 20px; }
-    .foot h4 { font-family: "Playfair Display", Georgia, serif; font-size: 20px; letter-spacing: 2px; margin-bottom: 8px; }
-    .foot p, .foot li { font-size: 13.5px; color: #d8cbb8; }
+    footer { background: var(--ink); color: var(--cream); padding: 40px 0 90px; }
+    .foot { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 26px; }
+    .foot h4 { font-size: 26px; font-weight: 900; letter-spacing: -1px; }
+    .foot h5 { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--mango); margin-bottom: 8px; }
+    .foot p, .foot li { font-size: 14px; color: #EADBC2; margin-top: 4px; }
     .foot ul { list-style: none; }
-    .foot li { padding: 2px 0; }
-    .foot a { color: #ecdcc4; text-decoration: none; }
-    .copy { text-align: center; font-size: 12px; color: #b7a68e; padding: 14px 22px 22px; border-top: 1px solid rgba(255,255,255,.08); margin-top: 20px; }
+    .foot a { color: #fff; font-weight: 700; }
+    .copy { text-align: center; font-size: 12px; color: #A8957C; margin-top: 30px; }
 
-    /* ===== closed banner ===== */
-    .closed-banner {
-      display: none; background: #fdeee9; color: #a04b3c; border: 1px solid #f3d2c8;
-      border-radius: 14px; padding: 12px 18px; font-size: 14px; text-align: center; margin: 0 auto;
-    }
-    .closed-banner.show { display: block; }
-
-    /* ===== floating cart ===== */
+    /* ===== giỏ nổi ===== */
     .cart-fab {
-      position: fixed; right: 18px; bottom: 18px; z-index: 60;
-      display: none; align-items: center; gap: 10px;
-      background: var(--brown-deep); color: #fff; border: none; border-radius: 999px;
-      padding: 13px 20px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit;
-      box-shadow: 0 10px 24px rgba(85, 64, 45, .4);
+      position: fixed; left: 50%; bottom: 16px; z-index: 45; transform: translate(-50%, 140%);
+      width: min(420px, calc(100% - 28px)); display: flex; justify-content: space-between; align-items: center;
+      background: var(--orange); color: #fff; border: 2px solid var(--ink); border-radius: 14px; padding: 14px 16px;
+      font-weight: 900; font-size: 15px; box-shadow: 4px 4px 0 var(--ink); transition: transform .25s ease;
     }
-    .cart-fab.show { display: inline-flex; }
-    .cart-fab .n { background: var(--tan); color: var(--brown-deep); border-radius: 999px; font-size: 12.5px; font-weight: 700; padding: 1px 9px; }
+    .cart-fab.show { transform: translate(-50%, 0); }
+    .cart-fab.bump { animation: bump .35s ease; }
+    @keyframes bump { 50% { transform: translate(-50%, -6px); } }
 
-    /* ===== cart drawer ===== */
-    .overlay {
-      position: fixed; inset: 0; background: rgba(63, 50, 38, .45); z-index: 70;
-      opacity: 0; pointer-events: none; transition: opacity .2s ease;
-    }
+    /* ===== ngăn giỏ ===== */
+    .overlay { position: fixed; inset: 0; background: rgba(34, 22, 13, .45); z-index: 60; opacity: 0; pointer-events: none; transition: opacity .2s; }
     .overlay.show { opacity: 1; pointer-events: auto; }
     .drawer {
-      position: fixed; top: 0; right: 0; bottom: 0; width: min(440px, 100vw); z-index: 80;
-      background: var(--cream); box-shadow: -8px 0 40px rgba(0,0,0,.18);
-      transform: translateX(105%); transition: transform .25s ease;
-      display: flex; flex-direction: column;
+      position: fixed; top: 0; right: 0; bottom: 0; width: min(440px, 100%); z-index: 61; background: var(--cream);
+      border-left: 2px solid var(--ink); transform: translateX(100%); transition: transform .25s ease; display: flex; flex-direction: column;
     }
     .drawer.show { transform: none; }
-    .drawer-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--line); background: var(--white); }
-    .drawer-head h3 { font-family: "Playfair Display", Georgia, serif; font-size: 20px; color: var(--brown-deep); }
-    .drawer-close { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--taupe); padding: 4px 8px; }
-    .drawer-body { flex: 1; overflow-y: auto; padding: 16px 20px; }
-
-    .cart-empty { text-align: center; color: var(--taupe); font-size: 14px; padding: 40px 0; }
-    .cart-empty button { margin-top: 12px; }
-
-    .c-line { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; margin-bottom: 10px; }
-    .c-line .top { display: flex; gap: 10px; }
-    .c-line img { width: 54px; height: 54px; object-fit: cover; border-radius: 12px; flex-shrink: 0; }
-    .c-line .nm { font-weight: 600; font-size: 14.5px; color: var(--brown-deep); }
-    .c-line .pr { font-size: 13px; color: var(--taupe); }
-    .c-line .rm { margin-left: auto; background: none; border: none; color: var(--taupe); cursor: pointer; font-size: 16px; }
-    .c-line .mid { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
-    .stepper { display: inline-flex; align-items: center; gap: 2px; }
-    .stepper button { width: 28px; height: 28px; border: 1px solid var(--tan); background: #fff; color: var(--brown); border-radius: 9px; font-size: 15px; cursor: pointer; line-height: 1; }
-    .stepper .qty { min-width: 24px; text-align: center; font-weight: 600; color: var(--brown-deep); }
-    .c-tops { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
-    .c-tops label {
-      display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: var(--taupe);
-      border: 1px solid var(--line); border-radius: 999px; padding: 3px 9px; cursor: pointer; background: #fff;
-    }
-    .c-tops input { accent-color: var(--brown); }
-    .c-line .sum { font-weight: 700; color: var(--brown-deep); font-size: 14px; }
-
-    /* checkout form */
-    .ck { margin-top: 18px; }
-    .ck h4 { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--taupe); margin: 16px 0 10px; }
+    .drawer-head { display: flex; justify-content: space-between; align-items: center; padding: 16px 18px; border-bottom: 2px solid var(--ink); }
+    .drawer-head h3 { font-size: 22px; font-weight: 900; letter-spacing: -.5px; }
+    .drawer-close { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--ink); background: var(--paper); font-size: 16px; font-weight: 900; }
+    .drawer-body { overflow-y: auto; padding: 16px 18px 30px; flex: 1; overscroll-behavior: contain; }
+    .cart-empty { text-align: center; padding: 40px 10px; color: var(--ink-2); }
+    .cart-empty .btn { margin-top: 14px; }
+    .c-line { display: flex; gap: 12px; align-items: center; background: var(--paper); border: 2px solid var(--ink); border-radius: 14px; padding: 10px 12px; margin-bottom: 10px; }
+    .c-line img { width: 22px; height: 86px; object-fit: cover; border-radius: 4px; }
+    .c-line img[src*="real-"] { width: auto; object-fit: contain; border-radius: 0; mix-blend-mode: multiply; }
+    .free-nudge { margin-top: 8px; background: var(--mango); border: 2px solid var(--ink); border-radius: 10px; padding: 8px 12px; font-size: 14px; font-weight: 700; }
+    .free-nudge.ok { background: #D9F2D4; }
+    .c-line .info { flex: 1; min-width: 0; }
+    .c-line .nm { font-weight: 800; font-size: 15px; line-height: 1.25; }
+    .c-line .pr { font-size: 13px; color: var(--ink-2); }
+    .c-line .c-tops { font-size: 12.5px; margin-top: 4px; display: flex; flex-wrap: wrap; gap: 4px 10px; }
+    .c-line .c-tops input { width: auto; }
+    .stepper { display: inline-flex; align-items: center; border: 2px solid var(--ink); border-radius: 10px; margin-top: 6px; }
+    .stepper button { width: 32px; height: 30px; border: none; background: none; font-size: 18px; font-weight: 900; }
+    .stepper .qty { min-width: 24px; text-align: center; font-weight: 800; }
+    .c-line .right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+    .c-line .sum { font-weight: 900; }
+    .c-line .rm { border: none; background: none; font-size: 15px; color: var(--ink-2); }
+    .ck h4 { font-size: 16px; font-weight: 900; margin: 18px 0 8px; }
     .field { margin-bottom: 10px; }
-    .field .lbl { display: block; font-size: 12.5px; color: var(--taupe); margin-bottom: 3px; }
-    input[type="text"], input[type="tel"], textarea, select {
-      width: 100%; padding: 10px 12px; font-size: 14.5px; color: var(--ink);
-      border: 1px solid var(--line); border-radius: 12px; background: var(--white);
-      outline: none; font-family: inherit;
-    }
-    input:focus, textarea:focus, select:focus { border-color: var(--tan); }
-    textarea { resize: vertical; min-height: 56px; }
+    .method-grid { display: grid; gap: 8px; }
+    .method { display: flex; gap: 10px; align-items: flex-start; border: 2px solid var(--ink); border-radius: 12px; padding: 10px 12px; background: var(--paper); cursor: pointer; }
+    .method input { width: 18px; height: 18px; margin-top: 3px; accent-color: var(--orange); flex: none; }
+    .method b { font-size: 14.5px; }
+    .method small { display: block; color: var(--ink-2); font-size: 12.5px; line-height: 1.35; }
+    .method:has(input:checked) { background: var(--cream-2); box-shadow: 3px 3px 0 var(--ink); }
     .radios { display: flex; flex-wrap: wrap; gap: 8px; }
     .chip { position: relative; }
-    .chip input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
-    .chip span { display: inline-block; padding: 7px 14px; border: 1px solid var(--line); border-radius: 999px; font-size: 13.5px; background: #fff; cursor: pointer; white-space: nowrap; }
-    .chip input:checked + span { background: var(--brown); border-color: var(--brown); color: #fff; }
+    .chip input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+    .chip span { display: inline-block; border: 2px solid var(--ink); border-radius: 99px; padding: 6px 12px; font-weight: 700; font-size: 14px; background: var(--paper); cursor: pointer; }
+    .chip input:checked + span { background: var(--ink); color: var(--cream); }
+    .chip input:focus-visible + span { outline: 3px solid var(--mango); }
+    .note { font-size: 12.5px; color: var(--ink-2); margin-top: 6px; }
+    .pickup-box { background: var(--paper); border: 2px dashed var(--ink); border-radius: 12px; padding: 12px; font-size: 14px; }
+    .totals { margin-top: 16px; border-top: 2px solid var(--ink); padding-top: 10px; }
+    .totals .row { display: flex; justify-content: space-between; font-size: 15px; padding: 3px 0; }
+    .totals .grand { font-size: 20px; font-weight: 900; }
+    .form-msg { margin-top: 10px; font-size: 14px; font-weight: 700; display: none; }
+    .form-msg.error { display: block; color: #B3261E; }
+    .form-msg.wait { display: block; color: var(--ink-2); }
+    .success { text-align: center; padding: 30px 6px; }
+    .success .big { font-size: 46px; }
+    .success h3 { font-size: 24px; font-weight: 900; margin-top: 6px; }
+    .success .code { display: inline-block; margin: 12px 0; background: var(--mango); border: 2px solid var(--ink); border-radius: 10px; padding: 6px 16px; font-size: 22px; font-weight: 900; letter-spacing: 1px; }
+    .success p { font-size: 14.5px; color: var(--ink-2); }
 
-    /* ---- thành phần bản đồ / chỉ đường ---- */
-    .map-chip {
-      display: flex; align-items: center; gap: 12px; margin-top: 22px; padding: 12px 14px;
-      max-width: 400px; border: 1px solid var(--line); border-radius: 16px; background: #fff;
-      text-decoration: none; box-shadow: var(--shadow); transition: border-color .15s, transform .15s;
-    }
-    .map-chip:hover { border-color: var(--tan); transform: translateY(-1px); }
-    .map-chip .m-pin { flex: 0 0 auto; width: 40px; height: 40px; border-radius: 12px; background: #f6ead8; display: grid; place-items: center; font-size: 20px; }
-    .map-chip b { display: block; font-size: 14px; color: var(--brown-deep); }
-    .map-chip small { display: block; font-size: 12px; color: var(--taupe); margin-top: 2px; }
-    .map-chip .m-go { margin-left: auto; flex: 0 0 auto; font-size: 13px; font-weight: 700; color: var(--brown); white-space: nowrap; }
-
-    /* ---- thẻ chọn phương thức nhận hàng (giao / tự đến lấy) ---- */
-    .method-grid { display: grid; gap: 10px; margin: 2px 0 8px; }
-    .method { position: relative; display: flex; gap: 10px; align-items: flex-start; border: 1.5px solid var(--line); border-radius: 14px; padding: 12px 14px; background: #fff; cursor: pointer; transition: border-color .15s, background .15s; }
-    .method input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
-    .method:has(input:checked) { border-color: var(--brown); background: #fdf8f0; }
-    .method .m-dot { flex: 0 0 auto; width: 18px; height: 18px; margin-top: 2px; border-radius: 50%; border: 2px solid var(--line); display: grid; place-items: center; transition: border-color .15s; }
-    .method .m-dot::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--brown); transform: scale(0); transition: transform .12s; }
-    .method:has(input:checked) .m-dot { border-color: var(--brown); }
-    .method:has(input:checked) .m-dot::after { transform: scale(1); }
-    .method b { display: block; font-size: 14.5px; color: var(--brown-deep); }
-    .method small { display: block; font-size: 12.5px; color: var(--taupe); line-height: 1.55; margin-top: 3px; }
-    .pickup-box { border: 1px dashed var(--line); border-radius: 14px; padding: 12px 14px; margin-top: 2px; background: #fdf8f0; }
-    .pickup-box p { font-size: 13px; color: var(--taupe); line-height: 1.55; margin: 0 0 10px; }
-    .totals { border-top: 1px solid var(--line); margin-top: 14px; padding-top: 10px; font-size: 14px; }
-    .totals .row { display: flex; justify-content: space-between; padding: 2px 0; color: var(--taupe); }
-    .totals .row.grand { color: var(--brown-deep); font-weight: 700; font-size: 16.5px; padding-top: 6px; }
-    .form-msg { margin-top: 10px; font-size: 13.5px; border-radius: 12px; padding: 9px 13px; display: none; }
-    .form-msg.error { display: block; background: #fdf2f0; color: #a04b3c; }
-    .form-msg.wait { display: block; background: var(--cream-2); color: var(--brown-deep); }
-
-    /* success */
-    .success { text-align: center; padding: 26px 10px; }
-    .success .big { font-size: 40px; }
-    .success h3 { color: var(--brown-deep); font-size: 20px; margin: 8px 0 4px; font-family: "Playfair Display", Georgia, serif; }
-    .success .code { display: inline-block; margin: 10px 0; padding: 9px 22px; border: 2px dashed var(--tan); border-radius: 12px; font-size: 21px; font-weight: 700; letter-spacing: 1px; color: var(--brown-deep); }
-    .success p { font-size: 13.5px; color: var(--taupe); }
-
-    .menu-loading { text-align: center; color: var(--taupe); font-size: 14px; padding: 30px 0; }
-    .menu-loading button { margin-left: 10px; padding: 6px 16px; border: 1px solid var(--tan); border-radius: 999px; background: #fff; color: var(--brown); cursor: pointer; font-size: 13px; font-family: inherit; }
-
-    /* toast */
     .toast {
-      position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%) translateY(80px);
-      background: var(--brown-deep); color: #fff; padding: 11px 22px; border-radius: 999px;
-      font-size: 14px; z-index: 90; opacity: 0; transition: all .25s ease; pointer-events: none;
+      position: fixed; left: 50%; bottom: 84px; transform: translate(-50%, 20px); opacity: 0; z-index: 70;
+      background: var(--ink); color: var(--cream); border-radius: 12px; padding: 10px 16px; font-size: 14px; font-weight: 700;
+      transition: all .2s ease; pointer-events: none; max-width: calc(100% - 28px);
     }
-    .toast.show { transform: translateX(-50%); opacity: 1; }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
-    @media (max-width: 860px) {
-      .hero { grid-template-columns: 1fr; padding-block-start: 36px; }
-      .hero h1 { font-size: 38px; }
-      .about, .delivery-grid { grid-template-columns: 1fr; }
-      .foot { grid-template-columns: 1fr; }
-    }
-    /* ===== mobile-first: điện thoại ≤640px ===== */
-    @media (max-width: 640px) {
+    /* ===== điện thoại ===== */
+    @media (max-width: 760px) {
       .topnav { display: none; }
-      .hamburger { display: inline-flex; }
-      .topbar .btn-sm { padding: 10px 16px; } /* nút Giỏ hàng đủ to để bấm */
-      .hero { grid-template-columns: 1fr; padding-block: 24px 30px; gap: 22px; }
-      .hero h1 { font-size: 32px; }
-      .hero .slogan { font-size: 16px; }
-      .hero p.lead { font-size: 14.5px; }
-      .hero-img { min-height: 240px; }
-      .hero-ctas .btn { flex: 1; min-width: 140px; text-align: center; }
-      .hero-meta { gap: 16px; }
-      .map-chip { max-width: none; }
-      .method small { font-size: 12px; }
-      section.block { padding: 36px 0; }
-      .sec-title { font-size: 24px; }
-      /* menu 2 cột trên điện thoại */
-      .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-      .card .body { padding: 10px 11px 12px; gap: 4px; }
-      .card h3 { font-size: 13.5px; line-height: 1.35; }
-      .card .desc { font-size: 11.5px; line-height: 1.5; }
-      .card .price-tag { font-size: 12px; padding: 3px 9px; }
-      .card .add { width: 100%; padding: 11px 8px; font-size: 13px; } /* nút mua chiếm cả dòng, dễ bấm */
-      .why { padding: 16px; }
-      .why p { font-size: 12.5px; }
-      .fee-box { padding: 16px; }
-      /* chữ lớn hơn 16px chống iOS tự phóng khi bấm vào ô nhập */
-      input[type="text"], input[type="tel"], textarea, select { font-size: 16px; }
-      .chip span { padding: 9px 14px; font-size: 14px; }
-      .stepper button { width: 36px; height: 36px; font-size: 17px; }
-      .drawer { width: 100vw; }
-      .drawer-body { padding: 12px 14px; }
-      /* nút giỏ nổi không che nội dung cuối trang */
-      footer { padding-bottom: 84px; }
+      #cart-btn { margin-left: auto; }
+      .hero { padding-top: 16px; }
+      .hero .hero-grid { grid-template-columns: 46px 88px minmax(0, 1fr); gap: 0 12px; }
+      .ruler span { left: 22px; font-size: 10px; }
+      .ruler span.top { font-size: 11px; }
+      .hero { --hero-h: 420px; }
+      .ruler { background-size: 12px 100%, 22px 100%; }
+      .hero h1 { font-size: 46px; letter-spacing: -1.5px; }
+      .hero-copy p.lead { font-size: 14px; }
+      .sticker { width: 96px; height: 96px; }
+      .sticker b { font-size: 27px; }
+      .hero-ctas .btn { width: 100%; padding: 12px 10px; font-size: 14px; }
+      .long, .ship { grid-template-columns: 1fr; }
+      .long figure img { aspect-ratio: 4 / 4.4; }
+      .shelf-arrows { display: none; }
+      .item { flex-basis: 148px; }
+      .item img { height: 250px; width: 56px; }
+      .item img[src*="real-"] { width: auto; }
+      .block { padding: 42px 0; }
+      .foot { grid-template-columns: 1fr; }
+      .fee-list { columns: 1; }
     }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
-      *, *::before, *::after { transition: none !important; animation: none !important; }
-      .card:hover { transform: none; }
-      .btn:hover { transform: none; }
+      * { transition: none !important; animation: none !important; }
     }
   </style>
 </head>
-<body>
+<body id="top">
 
   <!-- ===== thanh trên ===== -->
-  <div class="topbar">
-    <div class="wrap" style="max-width:1080px;margin:0 auto;padding:0 22px;display:flex;align-items:center;gap:14px;height:62px;">
-      <a class="brand" href="#top">
-        <img src="favicon.png" alt="Ume" width="38" height="38" />
-        <b>UME</b>
-      </a>
-      <nav class="topnav">
-        <a href="#ve-ume">Về Ume</a>
-        <a href="#noi-bat">Nổi bật</a>
-        <a href="#menu">Thực đơn</a>
-        <a href="#giao-hang">Giao hàng</a>
-        <a href="https://maps.app.goo.gl/2AozaFDTQQqv112S7?g_st=ic" target="_blank" rel="noopener">📍 Tìm đường đến quán</a>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="logo" href="#top"><img src="favicon.png" alt="" />ume.</a>
+      <nav class="topnav" aria-label="Điều hướng">
+        <a href="#dai">Dài cỡ nào</a>
+        <a href="#menu">Menu</a>
+        <a href="#ship">Phí ship</a>
+        <a href="#lien-he">Liên hệ</a>
       </nav>
-      <button class="btn btn-primary btn-sm" style="margin-left:auto" onclick="openCart()" id="topbar-cart">Giỏ hàng</button>
-      <button class="hamburger" id="hamburger" aria-label="Mở menu" aria-expanded="false" onclick="toggleNav()">☰</button>
-    </div>
-  </div>
-  <nav class="mobilenav" id="mobilenav" aria-label="Menu điện thoại">
-    <a href="#ve-ume" onclick="toggleNav(false)">Về Ume</a>
-    <a href="#noi-bat" onclick="toggleNav(false)">Món nổi bật</a>
-    <a href="#menu" onclick="toggleNav(false)">Thực đơn</a>
-    <a href="#giao-hang" onclick="toggleNav(false)">Giao hàng</a>
-    <a href="https://maps.app.goo.gl/2AozaFDTQQqv112S7?g_st=ic" target="_blank" rel="noopener" onclick="toggleNav(false)">📍 Tìm đường đến quán</a>
-  </nav>
-
-  <!-- ===== 1. HERO ===== -->
-  <header class="wrap hero" id="top">
-    <div>
-      <p class="kicker">EST. 2026 · QUỐC OAI, HÀ NỘI</p>
-      <h1 class="serif">Một khoảng dừng nhỏ,<br /> một ngụm trà ngon</h1>
-      <p class="slogan">UME — Tea for your little moments.</p>
-      <p class="lead">
-        Từ hương trà thơm dịu đến vị sữa béo hài hòa, mỗi ly Ume là một trải nghiệm được cân bằng để bạn tận hưởng theo cách riêng. Dừng lại một chút, chọn vị trà mình yêu thích và để ngày hôm nay nhẹ nhàng hơn.
-      </p>
-      <div class="hero-ctas">
-        <a class="btn btn-primary" href="#menu">Khám phá menu</a>
-        <a class="btn btn-ghost" href="#menu" onclick="setTimeout(() => openCart(), 400)">Mua ngay</a>
-      </div>
-      <a class="map-chip" href="https://maps.app.goo.gl/2AozaFDTQQqv112S7?g_st=ic" target="_blank" rel="noopener" aria-label="Mở bản đồ chỉ đường đến quán Ume">
-        <span class="m-pin">📍</span>
-        <span><b>Ghé quán tại Quốc Oai</b><small>QUỐC OAI, Hà Nội</small></span>
-        <span class="m-go">Xem bản đồ →</span>
-      </a>
-      <div class="hero-meta">
-        <div><b id="meta-price">—</b><span></span></div>
-        <div><b id="meta-slots">3 khung</b><span>Giao theo khung giờ</span></div>
-        <div><b>2km+</b><span>Bán kính giao hàng</span></div>
-      </div>
-    </div>
-    <div class="hero-img">
-      <img class="hero-img" src="anh_quan.png" alt="Trà sữa Ume" fetchpriority="high" />
+      <button class="btn btn-ink btn-sm" id="cart-btn" onclick="openCart()">Giỏ <span class="n" id="cart-n">0</span></button>
     </div>
   </header>
 
-  <div class="wrap" style="padding: 0 22px;">
-    <div class="closed-banner" id="closed-banner">
-      Hiện quán đang tạm đóng nhận đơn. Bạn vẫn xem được menu — quay lại sau nhé!
+  <!-- ===== 1. hero ===== -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="ruler" aria-hidden="true">
+        <span style="bottom:0">0</span><span style="bottom:22.22%">10</span><span style="bottom:44.44%">20</span>
+        <span style="bottom:66.67%">30</span><span style="bottom:88.89%">40</span><span class="top">45cm</span>
+      </div>
+      <div class="hero-bottle"><img src="img/hero-bottle.webp" alt="Chai trà sữa Ume dài 45cm, nắp nhôm" /></div>
+      <div class="hero-copy">
+        <span class="kicker">Trà sữa Điếu Cày · Quốc Oai</span>
+        <h1>Dài.<br />Rất<br /><em>dài.</em></h1>
+        <p class="lead">Chai dài <b>45cm</b>, <span id="hero-count">8</span> vị, nắp nhôm vặn. Đặt trên web, quán ship khắp Quốc Oai.</p>
+        <div class="sticker" aria-label="Giá"><small id="st-top">8 VỊ</small><b id="st-price">45k</b><small id="st-bot">đồng giá</small></div>
+        <div class="hero-ctas">
+          <a class="btn btn-orange" href="#menu">Chọn vị →</a>
+          <a class="btn btn-paper" href="#ship">Phí ship xã mình?</a>
+        </div>
+      </div>
+      <div class="hero-side" aria-hidden="true">
+        <img src="img/bottle-TS02.webp" alt="" /><img src="img/bottle-TS03.webp" alt="" /><img src="img/bottle-TS04.webp" alt="" />
+        <img src="img/bottle-TS05.webp" alt="" /><img src="img/bottle-TS06.webp" alt="" /><img src="img/bottle-TS07.webp" alt="" /><img src="img/bottle-TS08.webp" alt="" />
+      </div>
     </div>
-  </div>
+    <div class="wrap">
+      <div class="status" id="status" role="status"><span class="dot"></span><span id="status-text">Đang xem quán có nhận đơn không...</span></div>
+    </div>
+  </section>
 
-  <!-- ===== 2. GIỚI THIỆU THƯƠNG HIỆU ===== -->
-  <section class="block" id="ve-ume">
-    <div class="wrap about">
-      <img class="about-img" src="cac_coc.jpg" alt="Trà sữa Ume làm tại quán" />
+  <!-- ===== 2. dài cỡ này nè ===== -->
+  <section class="block alt" id="dai">
+    <div class="wrap long">
+      <figure>
+        <img src="img/street.webp" alt="Tay cầm chai trà sữa Ume dài ngoài chợ đêm" loading="lazy" />
+        <span class="tag">dài cỡ này nè ↓</span>
+      </figure>
       <div>
-        <p class="kicker">CÂU CHUYỆN UME</p>
-        <h2 class="sec-title serif" style="text-align:left;margin:10px 0 6px">Không chỉ là trà sữa<br />Là một khoảng dừng dễ chịu</h2>
-        <p style="font-size:15px;color:var(--taupe)">
-          Giữa nhịp sống thường ngày, Ume muốn mang đến một lựa chọn nhỏ để bạn tự thưởng cho mình. Một ly trà thơm, vị sữa hài hòa và khoảnh khắc thư thả theo cách riêng.
-
-Không cần một dịp đặc biệt để thưởng thức điều mình thích. Đôi khi, một ly trà ngon cũng đủ làm ngày thường trở nên dễ chịu hơn.
-        </p>
-        <ul class="about-points">
-          <li><span class="dot">●</span><span>Tập trung vào hương trà và sự cân bằng trong từng thức uống.</span></li>
-          <li><span class="dot">●</span><span>Nhiều hương vị để khám phá và tìm ra món yêu thích.</span></li>
-          <li><span class="dot">●</span><span>Từ sản phẩm đến cách phục vụ, Ume hướng đến sự nhất quán và dễ chịu.</span></li>
-        </ul>
+        <h2 class="h2">45cm. Cầm lên tay mới thấy dài thật.</h2>
+        <p class="sub">Chai thẳng, nắp vặn nhôm, ống hút dài theo chai. Một tay cầm là đi được.</p>
+        <div class="facts">
+          <span>Chai 45cm</span>
+          <span id="f-count">8 vị</span>
+          <span id="f-price">Đồng giá 45k</span>
+          <span id="f-zones">Ship khắp Quốc Oai</span>
+        </div>
+        <div style="margin-top:22px"><a class="btn btn-ink" href="#menu">Xem 8 chai →</a></div>
       </div>
     </div>
   </section>
 
-  <!-- ===== 3. SẢN PHẨM NỔI BẬT ===== -->
-  <section class="block" id="noi-bat" style="background:var(--cream-2)">
-    <div class="wrap">
-      <div class="sec-title serif" style="text-align:center">Món được yêu thích</div>
-      <p class="sec-sub">Khám phá những lựa chọn nổi bật tại Ume. Hương trà đặc trưng, vị sữa hài hòa và những kết hợp hương vị đáng thử.</p>
-      <div class="sec-line"></div>
-      <div class="grid" id="featured" style="margin-top:30px"></div>
-    </div>
-  </section>
-
-  <!-- ===== 4. TOÀN BỘ MENU ===== -->
+  <!-- ===== 3. menu: kệ chai lướt ngang ===== -->
   <section class="block" id="menu">
     <div class="wrap">
-      <div class="sec-title serif" style="text-align:center">Thực đơn</div>
-      <p class="sec-sub">Chọn vị trà bạn yêu thích.</p>
-      <div class="sec-line"></div>
-      <div id="menu-box" style="margin-top:30px">
-        <div class="menu-loading" id="menu-loading">Đang tải thực đơn từ quán...
-          <button type="button" onclick="loadConfig()">Tải lại</button>
+      <div class="shelf-head">
+        <div>
+          <h2 class="h2">Kệ hôm nay</h2>
+          <p class="sub">Lăn chuột hoặc vuốt ngang để xem hết các vị →</p>
+        </div>
+        <div class="shelf-arrows">
+          <button type="button" id="sh-prev" aria-label="Xem chai trước">←</button>
+          <button type="button" id="sh-next" aria-label="Xem chai tiếp">→</button>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- ===== 5. LÝ DO CHỌN UME ===== -->
-  <section class="block" style="background:var(--cream-2)">
-    <div class="wrap">
-      <div class="sec-title serif" style="text-align:center">TRẢI NGHIỆM UME</div>
-      <p class="sec-sub">Những điều tạo nên Ume</p>
-      <div class="sec-line"></div>
-      <div class="why-grid" style="margin-top:30px">
-        <div class="why"><div class="ico">🧋</div><h3>Chú trọng hương vị</h3><p>Mỗi thức uống được xây dựng với sự cân bằng giữa hương trà, vị sữa và các thành phần đi kèm.</p></div>
-        <div class="why"><div class="ico">⏰</div><h3>Chủ động thời gian</h3><p>Chọn khung giờ nhận hàng phù hợp. Ume tiếp nhận đơn đặt trước để có thời gian chuẩn bị.</p></div>
-        <div class="why"><div class="ico">🏠</div><h3>Giá cả rõ ràng</h3><p>Mức giá được hiển thị minh bạch trên thực đơn. Thông tin phí giao hàng được cập nhật theo khu vực.</p></div>
-        <div class="why"><div class="ico">💬</div><h3>Luôn có người hỗ trợ</h3><p>Ume sẽ liên hệ xác nhận khi đơn hàng cần thêm thông tin, giúp quá trình đặt món rõ ràng và thuận tiện.</p></div>
+      <div id="menu-box">
+        <div class="menu-loading">Đang lấy menu từ quán... <button type="button" onclick="loadConfig()">Tải lại</button></div>
       </div>
+      <div class="shelf-progress" aria-hidden="true"><i id="sh-bar"></i></div>
+      <p class="free-hint" id="free-hint"></p>
     </div>
   </section>
 
-  <!-- ===== 6. KHU VỰC GIAO HÀNG ===== -->
-  <section class="block" id="giao-hang">
-    <div class="wrap delivery-grid">
+  <!-- ===== 4. ship theo xã ===== -->
+  <section class="block alt" id="ship">
+    <div class="wrap ship">
       <div>
-        <p class="kicker">KHU VỰC GIAO HÀNG</p>
-        <h2 class="sec-title serif" style="text-align:left;margin:10px 0 6px">Ume giao trà đến bạn.</h2>
-        <p style="font-size:14.5px;color:var(--taupe)">
-          Ume phục vụ tại Quốc Oai, Hà Nội, với hình thức giao tận nơi theo khu vực và nhận hàng trực tiếp tại quán. —
-          Phí giao hàng và điều kiện miễn phí được cập nhật theo từng xã trên hệ thống của Ume.
-</br>
-
-        </p>
-        <div class="hero-ctas" style="margin-top:20px">
-          <a class="btn btn-primary" href="#menu" onclick="setTimeout(() => openCart(), 400)">Đặt hàng ngay</a>
-        </div>
-        <div class="fee-box" style="margin-top:22px">
-          <h3 style="font-size:15px;color:var(--brown-deep);margin-bottom:10px">🚶 Nhận hàng tại quán</h3>
-          <p style="font-size:14px;color:var(--taupe)">
-            Chọn hình thức tự đến lấy, đặt khung giờ nhận và ghé Ume khi đơn đã được xác nhận sẵn sàng.
-          </p>
-          <a class="btn btn-ghost btn-sm" style="margin-top:10px" href="https://maps.app.goo.gl/2AozaFDTQQqv112S7?g_st=ic" target="_blank" rel="noopener">📍 Xem đường đến quán</a>
+        <h2 class="h2">Ship tới xã bạn</h2>
+        <p class="sub">Chọn xã là ra phí ship và tổng tiền. Tự qua quán lấy thì không mất phí.</p>
+        <div class="card" style="margin-top:18px">
+          <label class="lbl" for="q-zone">Bạn ở xã nào?</label>
+          <select id="q-zone" onchange="renderQuote()"><option value="">— Chọn xã —</option></select>
+          <div class="quote" id="quote"></div>
+          <details class="fees">
+            <summary>Xem phí ship tất cả các xã</summary>
+            <ul class="fee-list" id="fee-list"><li>Đang tải...</li></ul>
+          </details>
         </div>
       </div>
-      <div class="fee-box">
-        <h3 style="font-size:15px;color:var(--brown-deep);margin-bottom:10px">Phí ship theo từng xã</h3>
-        <ul class="fee-list" id="fee-list">
-          <li style="border:none;color:var(--taupe)">Đang tải danh sách xã...</li>
-        </ul>
-        <p class="fee-note" id="fee-note"></p>
+      <div class="card">
+        <span class="lbl">Khung giờ giao hôm nay</span>
+        <div class="chips" id="slot-today"><span>9–11h</span><span>15–17h</span><span>20–22h</span></div>
+        <p class="note">Đặt trước, quán pha và giao trong khung bạn chọn.</p>
+        <span class="lbl" style="margin-top:18px">Muốn tự qua lấy?</span>
+        <p style="font-size:14px">Quán ở Quốc Oai, Hà Nội. Đặt trước trên web, quán gọi khi gần xong.</p>
+        <a class="btn btn-paper btn-sm" style="margin-top:10px" href="https://maps.app.goo.gl/2AozaFDTQQqv112S7?g_st=ic" target="_blank" rel="noopener">📍 Chỉ đường tới quán</a>
       </div>
     </div>
   </section>
 
-  <!-- ===== 7. FOOTER ===== -->
-  <footer>
+  <!-- ===== 5. footer ===== -->
+  <footer id="lien-he">
     <div class="wrap foot">
       <div>
-        <h4>UME</h4>
-        <p>Một khoảng dừng nhỏ, một ngụm trà ngon</p>
-        <p style="margin-top:10px">📍 Quốc Oai, Hà Nội</p>
-        <a href="https://maps.app.goo.gl/2AozaFDTQQqv112S7?g_st=ic" target="_blank" rel="noopener"
-           style="display:inline-flex;align-items:center;gap:8px;margin-top:8px;padding:9px 14px;border:1px solid rgba(255,255,255,.25);border-radius:999px;color:#ecdcc4;text-decoration:none;font-size:13px;font-weight:600">
-          🗺️ Xem bản đồ / Chỉ đường
-        </a>
-        <p>🕒 Nhận đơn theo khung giờ: <span id="foot-slots">9–11 · 15–17 · 20–22</span></p>
+        <h4>ume.</h4>
+        <p>Trà sữa Điếu Cày siêu dài · Quốc Oai, Hà Nội</p>
+        <p>Nhận đơn theo khung: <b id="foot-slots">9–11 · 15–17 · 20–22</b></p>
       </div>
       <div>
-        <h4 style="font-size:15px;letter-spacing:1px">Thực đơn</h4>
+        <h5>Gọi / nhắn quán</h5>
         <ul>
-          <li><a href="#noi-bat">Món nổi bật</a></li>
-          <li><a href="#menu">Tất cả món</a></li>
-          <li><a href="#giao-hang">Khu vực giao hàng</a></li>
+          <li>📞 <a href="tel:0374805298">0374 805 298</a></li>
+          <li>💬 <a href="https://www.facebook.com/share/1FtwPodxCh/?mibextid=wwXIfr" target="_blank" rel="noopener">Facebook Ume House</a></li>
         </ul>
       </div>
       <div>
-        <h4 style="font-size:15px;letter-spacing:1px">Liên hệ</h4>
+        <h5>Tìm quán</h5>
         <ul>
-          <li><a href="#top">SĐT: 0374805298</a></li>
-          <li><a href="#top">Facebook: <a href="https://www.facebook.com/share/1FtwPodxCh/?mibextid=wwXIfr" target="_blank" rel="noopener" style="color:var(--brown);font-weight:600">Ume House</a>.</a></li>
+          <li>📍 <a href="https://maps.app.goo.gl/2AozaFDTQQqv112S7?g_st=ic" target="_blank" rel="noopener">Xem bản đồ</a></li>
+          <li><a href="#menu">Menu</a> · <a href="#ship">Phí ship</a></li>
         </ul>
-        <p style="margin-top:10px;font-size:12.5px">Giờ cập nhật menu, giá hay khung giờ đều chỉnh trong Google Sheet của quán — trang tự cập nhật.</p>
       </div>
     </div>
-    <div class="copy">© 2026 Ume House — Quốc Oai, Hà Nội.</div>
+    <p class="copy">© 2026 Ume House · Quốc Oai, Hà Nội</p>
   </footer>
 
-  <!-- nút giỏ nổi -->
+  <!-- giỏ nổi -->
   <button class="cart-fab" id="cart-fab" onclick="openCart()">
-    🛒 <span id="fab-total">0đ</span> <span class="n" id="fab-count">0</span>
+    <span>🛒 <span id="fab-count">0</span> chai</span><span><span id="fab-total">0đ</span> →</span>
   </button>
 
-  <!-- giỏ hàng -->
+  <!-- ngăn giỏ hàng -->
   <div class="overlay" id="overlay" onclick="closeCart()"></div>
-  <aside class="drawer" id="drawer" aria-label="Giỏ hàng">
+  <aside class="drawer" id="drawer" aria-label="Giỏ hàng" aria-hidden="true">
     <div class="drawer-head">
-      <h3>Giỏ hàng của bạn</h3>
-      <button class="drawer-close" onclick="closeCart()" aria-label="Đóng giỏ hàng">✕</button>
+      <h3>Giỏ của bạn</h3>
+      <button class="drawer-close" onclick="closeCart()" aria-label="Đóng giỏ">✕</button>
     </div>
     <div class="drawer-body">
       <div id="cart-lines"></div>
 
       <div class="ck" id="checkout" hidden>
-        <h4>Thông tin người nhận</h4>
-        <div class="field"><label class="lbl" for="f-name">Tên khách *</label>
-          <input type="text" id="f-name" maxlength="100" placeholder="VD: Lan" /></div>
+        <h4>Người nhận</h4>
+        <div class="field"><label class="lbl" for="f-name">Tên *</label>
+          <input type="text" id="f-name" maxlength="100" placeholder="VD: Lan" autocomplete="name" /></div>
         <div class="field"><label class="lbl" for="f-phone">Số điện thoại *</label>
-          <input type="tel" id="f-phone" maxlength="12" placeholder="VD: 0912345678" /></div>
+          <input type="tel" id="f-phone" maxlength="14" placeholder="VD: 0912345678" autocomplete="tel" /></div>
 
         <h4>Nhận hàng</h4>
         <div class="method-grid">
           <label class="method">
             <input type="radio" name="delivery" value="giao" checked onchange="onDeliveryChange()" />
-            <span class="m-dot" aria-hidden="true"></span>
-            <span class="m-body"><b>🛵 Giao hàng tận nơi</b>
-              <small>Bạn chỉ cần đặt món, quán sẽ chuẩn bị và giao đồ uống đến địa chỉ của bạn.</small></span>
+            <span><b>🛵 Ship tận nơi</b><small>Quán pha và giao trong khung giờ bạn chọn.</small></span>
           </label>
           <label class="method">
             <input type="radio" name="delivery" value="tu_lay" onchange="onDeliveryChange()" />
-            <span class="m-dot" aria-hidden="true"></span>
-            <span class="m-body"><b>🏠 Tự đến quán lấy</b>
-              <small>Bạn muốn chủ động thời gian? Đặt món trước, ghé quán lấy đồ uống khi quán chuẩn bị xong nhé!</small></span>
+            <span><b>🏠 Tự qua quán lấy</b><small>Không mất ship. Quán gọi khi gần xong.</small></span>
           </label>
         </div>
         <div id="giao-wrap">
-          <div class="field" style="margin-top:10px"><label class="lbl" for="f-zone">Xã / khu vực giao</label>
-            <select id="f-zone"></select></div>
-          <div class="field"><label class="lbl">Khung giờ giao *</label>
+          <div class="field" style="margin-top:10px"><label class="lbl" for="f-zone">Xã *</label>
+            <select id="f-zone" onchange="onZoneChange(this.value)"></select></div>
+          <div class="field"><span class="lbl">Khung giờ giao *</span>
             <div class="radios" id="slot-chips"></div>
-            <p class="fee-note" id="slot-note" style="margin-top:6px"></p></div>
-          <div class="field"><label class="lbl" for="f-address">Địa chỉ giao hàng *</label>
-            <input type="text" id="f-address" maxlength="200" placeholder="Số nhà, ngõ, thôn/làng..." /></div>
+            <p class="note" id="slot-note"></p></div>
+          <div class="field"><label class="lbl" for="f-address">Địa chỉ *</label>
+            <input type="text" id="f-address" maxlength="200" placeholder="Số nhà, ngõ, thôn/xóm..." autocomplete="street-address" /></div>
         </div>
         <div id="tulay-wrap" hidden>
           <div class="pickup-box" style="margin-top:10px">
-            <p>📍 <b style="color:var(--brown-deep)">Ume — QUỐC OAI, Hà Nội.</b>
-              Đơn của quán chuẩn bị theo khung giờ, quán sẽ gọi điện khi gần xong nhé!</p>
-            <a class="btn btn-primary btn-sm" href="https://maps.app.goo.gl/2AozaFDTQQqv112S7?g_st=ic" target="_blank" rel="noopener">📍 Xem đường đến quán</a>
-            <div class="field" style="margin:10px 0 0"><label class="lbl" for="f-pickup">Dự kiến đến lấy lúc (tuỳ chọn)</label>
-              <input type="text" id="f-pickup" maxlength="60" placeholder="VD: khoảng 16h hôm nay" /></div>
+            <p>📍 <b>Ume · Quốc Oai, Hà Nội.</b> Quán pha theo khung giờ và gọi bạn khi gần xong.</p>
+            <a class="btn btn-paper btn-sm" style="margin-top:8px" href="https://maps.app.goo.gl/2AozaFDTQQqv112S7?g_st=ic" target="_blank" rel="noopener">📍 Chỉ đường</a>
+            <div class="field" style="margin:10px 0 0"><label class="lbl" for="f-pickup">Định qua lấy lúc mấy giờ? (không bắt buộc)</label>
+              <input type="text" id="f-pickup" maxlength="60" placeholder="VD: khoảng 16h" /></div>
           </div>
         </div>
 
@@ -580,320 +501,422 @@ Không cần một dịp đặc biệt để thưởng thức điều mình thí
         <div class="radios" id="pay-chips"></div>
 
         <h4>Ghi chú</h4>
-        <div class="field"><textarea id="f-note" maxlength="500" placeholder="Ví dụ: ít đá, gọi trước khi giao"></textarea></div>
+        <div class="field"><textarea id="f-note" maxlength="500" placeholder="VD: ít đá, gọi trước khi tới"></textarea></div>
 
         <div class="totals">
-          <div class="row"><span>Tiền hàng (<span id="t-cups">0</span> phần)</span><span id="t-sub">0đ</span></div>
-          <div class="row"><span id="t-fee-lbl">Phí giao hàng</span><span id="t-fee">0đ</span></div>
-          <div class="row grand"><span>Tổng thanh toán</span><span id="t-total">0đ</span></div>
+          <div class="row"><span>Tiền trà (<span id="t-cups">0</span> chai)</span><span id="t-sub">0đ</span></div>
+          <div class="row"><span id="t-fee-lbl">Phí ship</span><span id="t-fee">0đ</span></div>
+          <div class="row grand"><span>Tổng</span><span id="t-total">0đ</span></div>
         </div>
-        <button class="btn btn-primary" id="btn-submit" style="width:100%;margin-top:14px" onclick="submitOrder()">Xác nhận gửi đơn</button>
+        <div class="free-nudge" id="free-nudge" hidden></div>
+        <button class="btn btn-orange" id="btn-submit" style="width:100%;margin-top:14px" onclick="submitOrder()">Gửi đơn cho quán</button>
         <div class="form-msg" id="form-msg"></div>
       </div>
 
       <div class="success" id="order-success" hidden>
         <div class="big">🎉</div>
-        <h3>Đã nhận đơn của bạn!</h3>
+        <h3>Quán nhận đơn rồi!</h3>
         <div class="code" id="s-code">UM-0000</div>
         <p id="s-detail"></p>
-        <p style="margin-top:8px">Ume sẽ gọi/nhắn xác nhận nếu cần. Giữ lại mã đơn để tiện tra cứu nhé.</p>
-        <button class="btn btn-ghost btn-sm" style="margin-top:14px" onclick="resetCart()">Đặt thêm đơn khác</button>
+        <p style="margin-top:8px">Cần xác nhận gì thêm quán sẽ gọi bạn. Giữ mã đơn này để hỏi lại cho nhanh.</p>
+        <button class="btn btn-paper btn-sm" style="margin-top:14px" onclick="resetCart()">Đặt thêm đơn khác</button>
       </div>
     </div>
   </aside>
 
-  <div class="toast" id="toast"></div>
+  <div class="toast" id="toast" role="status"></div>
 
   <script>
     /* ============================================================
-       NỐI VỚI HỆ THỐNG "NHẬP ĐƠN" CỦA QUÁN (Google Apps Script)
-       — dùng đúng API có sẵn của script, KHÔNG sửa script:
-         GET  exec           → cấu hình công khai (menu, xã, khung giờ)
-         POST exec (JSON)    → tạo đơn kênh "landing" (source=landing)
-       Hợp đồng như file apps-script/Code.gs (bản tham chiếu).
+       Nối với hệ thống nhập đơn của quán (Google Apps Script) — giữ nguyên hợp đồng API:
+         GET  exec        → cấu hình công khai (menu, xã, khung giờ)
+         POST exec (JSON) → tạo đơn kênh "landing"
        ============================================================ */
- const GAS_URL = "https://script.google.com/macros/s/AKfycbxDGyZM3Sc6QB2pyhWMOmZFgvHsKA3YfIR5RUBroTmoWlhIh68unrbDHHkid3UG-Mxs2w/exec";
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbxDGyZM3Sc6QB2pyhWMOmZFgvHsKA3YfIR5RUBroTmoWlhIh68unrbDHHkid3UG-Mxs2w/exec";
+    const CACHE_KEY = "ume_cfg_v1";
 
-    /* ---- ảnh minh hoạ sản phẩm — thay ảnh sau này bằng cách thêm tên file vào map này ---- */
-    const IMG_BY_ID = {}; // VD: { "TS01": "tra-sua-dam-vi.jpg" }
-    const FALLBACK_IMG = "tra_sua.jpeg";
+    /* Ảnh chai theo mã món. Món mới chưa có ảnh ở đây sẽ dùng "Link ảnh" trong Sheet. */
+    /* Menu dùng ảnh chụp thật nền trắng (real-*). Món chưa có ảnh thật mà dùng bản cắt banner sẽ tự hiện nhãn "ảnh minh hoạ". */
+    const IMG_BY_ID = {
+      TS01: "img/real-TS01.webp", TS02: "img/real-TS02.webp", TS03: "img/real-TS03.webp", TS04: "img/real-TS04.webp",
+      TS05: "img/real-TS05.webp", TS06: "img/real-TS06.webp", TS07: "img/real-TS07.webp", TS08: "img/real-TS08.webp"
+    };
+    const FALLBACK_IMG = "img/real-TS01.webp";
+    const isIllustration = (src) => /bottle-TS\d+\.webp$/.test(src);
 
-    /* Ảnh Google Drive dạng link xem (file/d/..., open?id=...) không nhúng được thẳng — đổi sang link thumbnail. */
+    const DESC_BY_ID = {
+      TS01: "Trà đậm, sữa béo. Vị truyền thống.",
+      TS02: "Trân châu đường đen đầy đáy chai.",
+      TS03: "Ô long ủ quế hoa, hậu ngọt ấm.",
+      TS04: "Trà thái xanh, thơm mùi lá dứa.",
+      TS05: "Ô long đào sữa, chua ngọt vừa.",
+      TS06: "Hạt dẻ rang bùi, ngọt thanh.",
+      TS07: "Đào, cam, sả. Mát, ít ngọt.",
+      TS08: "Xoài chanh dây chua ngọt, uống là mát."
+    };
+    const DESC_FALLBACK = "Pha khi có đơn, vị trà là chính.";
+
+    let CFG = null;
+    let CART = [];   // [{ product_id, name, price, qty, tops:Set }]
+    let LIVE = false; // đã nhận cấu hình mới từ quán (không phải bản lưu)
+
+    const fmt = (n) => (Number(n) || 0).toLocaleString("vi-VN") + "đ";
+    const k = (n) => Math.round((Number(n) || 0) / 1000) + "k";
+    const byId = (id) => document.getElementById(id);
+    const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    const findProduct = (id) => ((CFG && CFG.products) || []).find((p) => p.product_id === id);
+
     const driveImg = (url) => {
       const m = url.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:[^#]*&)?id=)([\w-]{20,})/);
       return m ? "https://drive.google.com/thumbnail?id=" + m[1] + "&sz=w800" : url;
     };
-    /* Ô "Link ảnh" dán nhầm cả đoạn HTML nhúng (VD imgbb: <a ...><img src="https://i.ibb.co/...">) — lôi link ảnh ra. */
     const extractImgUrl = (raw) => {
       const m = String(raw).match(/<img[^>]*\ssrc=["']([^"']+)["']/i);
       return m ? m[1] : String(raw).trim();
     };
-
-    /* ---- mô tả ngắn hiển thị (chỉ để giới thiệu, giá/tên lấy từ hệ thống) ---- */
-    const DESC_BY_ID = {
-      "TS01": "Trà sữa truyền thống, vị trà đậm rõ, sữa béo mượt",
-      "TS02": "Trân châu đường đen nhồi đầy đáy ly, nhai đã miệng.",
-      "TS03": "Ô long ủ quế hoa, hậu ngọt ấm — chút vị sữa nhẹ.",
-      "TS04": "Trà sữa thái xanh, béo thơm mùi lá dứa.",
-      "TS05": "Ô long đào sữa — đào thơm, chua ngọt cân bằng.",
-      "TS06": "Trà sữa hạt dẻ, mùi rang bùi, ngọt thanh.",
-      "TS07": "Trà đào cam sả, tươi mát, ít ngọt — hợp ngày nắng.",
-      "TS08": "Trà xoài chanh dây, chua ngọt bạc hà — uống là mát."
-    };
-    const DESC_FALLBACK = "Pha khi có đơn, vị trà là chủ đạo, ngọt thanh vừa miệng.";
-
-    /* ---- trạng thái ---- */
-    let CFG = null;     // dữ liệu GET từ hệ thống quán
-    let CART = [];      // [{ product_id, name, price, qty, tops:Set(toping_id) }]
-
-    const fmt = (n) => (n || 0).toLocaleString("vi-VN") + "đ";
-    const byId = (id) => document.getElementById(id);
-    const imgOf = (id) => {
+    function imgOf(id) {
+      if (IMG_BY_ID[id]) return IMG_BY_ID[id];
       const p = findProduct(id);
       const raw = p && typeof p.image_url === "string" ? extractImgUrl(p.image_url) : "";
-       const u = /^https:\/\//.test(raw) ? driveImg(raw) : "";
-        return u || IMG_BY_ID[id] || FALLBACK_IMG;
-    };
-    const descOf = (p) => DESC_BY_ID[p.product_id] || DESC_FALLBACK;
-    const findProduct = (id) => (CFG.products || []).find((p) => p.product_id === id);
+      return /^https:\/\//.test(raw) ? driveImg(raw) : FALLBACK_IMG;
+    }
 
     function toast(text) {
       const t = byId("toast");
       t.textContent = text;
       t.className = "toast show";
       clearTimeout(window._umeToast);
-      window._umeToast = setTimeout(() => (t.className = "toast"), 2200);
+      window._umeToast = setTimeout(() => (t.className = "toast"), 2000);
     }
 
-    /* ---- tải cấu hình công khai từ hệ thống quán ---- */
-function loadConfig() {
-  byId("menu-box").innerHTML =
-    '<div class="menu-loading">Đang tải thực đơn từ quán... ' +
-    '<button type="button" onclick="loadConfig()">Tải lại</button></div>';
+    /* ---------- tải cấu hình: hiện bản đã lưu ngay, rồi cập nhật bản mới ---------- */
+    function readCache() {
+      try { const c = JSON.parse(localStorage.getItem(CACHE_KEY) || "null"); return c && c.ok ? c : null; } catch (e) { return null; }
+    }
+    function writeCache(cfg) {
+      try { localStorage.setItem(CACHE_KEY, JSON.stringify(cfg)); } catch (e) { /* bỏ qua */ }
+    }
 
-  console.log("GAS_URL:", GAS_URL);
+    function loadConfig() {
+      const cached = readCache();
+      if (cached && !CFG) applyConfig(cached);
+      if (!CFG) byId("menu-box").innerHTML = '<div class="menu-loading">Đang lấy menu từ quán... <button type="button" onclick="loadConfig()">Tải lại</button></div>';
 
-  fetch(GAS_URL, {
-    method: "GET",
-    redirect: "follow"
-  })
-    .then(async (r) => {
-      console.log("HTTP status:", r.status);
-      console.log("Response URL:", r.url);
-      console.log("Content-Type:", r.headers.get("content-type"));
+      fetch(GAS_URL, { method: "GET", redirect: "follow" })
+        .then((r) => r.json())
+        .then((cfg) => {
+          if (!cfg || !cfg.ok) throw new Error("bad config");
+          LIVE = true;
+          writeCache(cfg);
+          applyConfig(cfg);
+        })
+        .catch(() => {
+          if (CFG) { renderStatus(); return; } // vẫn dùng menu đã lưu
+          byId("menu-box").innerHTML =
+            '<div class="menu-loading">Chưa kết nối được với quán. Kiểm tra mạng rồi bấm <button type="button" onclick="loadConfig()">Tải lại</button></div>';
+          byId("status").className = "status closed";
+          byId("status-text").textContent = "Chưa tải được menu. Gọi quán 0374 805 298 nếu cần gấp nhé.";
+        });
+    }
 
-      const text = await r.text();
-
-      console.log("Raw response:", text);
-
-      try {
-        return JSON.parse(text);
-      } catch (e) {
-        console.error("LỖI PARSE JSON:", e);
-        throw new Error("Server không trả về JSON hợp lệ");
-      }
-    })
-    .then((cfg) => {
-      console.log("Config nhận được:", cfg);
-
-      if (!cfg || !cfg.ok) {
-        console.error("Config không hợp lệ:", cfg);
-        throw new Error("bad response: cfg.ok không phải true");
-      }
-
+    function applyConfig(cfg) {
       CFG = cfg;
-
-      if (cfg.orders_open === false) {
-        byId("closed-banner").className = "closed-banner show";
-      }
-
-      console.log("Bắt đầu render...");
-
-      renderFeatured();
-      console.log("renderFeatured OK");
-
+      renderPriceBits();
       renderMenu();
-      console.log("renderMenu OK");
-
       renderFees();
-      console.log("renderFees OK");
-
       renderPayOptions();
-      console.log("renderPayOptions OK");
-
       populateCommunes();
-      console.log("populateCommunes OK");
-
       renderSlots();
-      console.log("renderSlots OK");
-    })
-    .catch((err) => {
-      console.error("LOAD CONFIG FAILED:", err);
-
-      byId("menu-box").innerHTML =
-        '<div class="menu-loading">Không kết nối được hệ thống quán. ' +
-        err.message +
-        ' <button type="button" onclick="loadConfig()">Tải lại</button></div>';
-    });
-}
-
-    function showMsg(kind, text) {
-      const el = byId("form-msg");
-      el.className = "form-msg " + kind;
-      el.textContent = text;
+      renderStatus();
+      refreshCart();
     }
 
-    /* ---- các phần hiển thị ---- */
-    function productCard(p, featured) {
-      return `
-        <div class="card">
-          <div class="thumb">
-            <img src="${imgOf(p.product_id)}" alt="${p.name}" loading="lazy" />
-            <span class="price-tag">${fmt(p.price)}</span>
-          </div>
-          <div class="body">
-            <h3>${p.name}</h3>
-            <p class="desc">${DESC_BY_ID[p.product_id] || DESC_FALLBACK}</p>
-            <button class="btn ${featured ? "btn-primary" : "btn-ghost"} btn-sm add" onclick="addToCart('${p.product_id}')">
-              ${featured ? "Mua ngay" : "Thêm vào giỏ"}
-            </button>
-          </div>
-        </div>`;
+    /* ---------- giá đồng giá / từ ---------- */
+    function priceRange() {
+      const ps = (CFG.products || []).map((p) => Number(p.price) || 0).filter(Boolean);
+      if (!ps.length) return null;
+      return { min: Math.min(...ps), max: Math.max(...ps) };
     }
-
-    function renderFeatured() {
-      const list = (CFG.products || []).slice(0, 3);
-      console.log("dsdsdsdddddddd", list);
-      byId("featured").innerHTML = list.map((p) => productCard(p, true)).join("");
-      if (list.length) {
-        byId("meta-price").textContent = fmt(list[0].price);
-        const n = (CFG.delivery_slots || []).length;
-        byId("meta-slots").textContent = n ? (n + " khung") : "";
+    function renderPriceBits() {
+      const n = (CFG.products || []).length;
+      const r = priceRange();
+      byId("hero-count").textContent = n;
+      byId("f-count").textContent = n + " vị";
+      byId("st-top").textContent = n + " VỊ";
+      if (r) {
+        const same = r.min === r.max;
+        byId("st-price").textContent = k(r.min);
+        byId("st-bot").textContent = same ? "đồng giá" : "giá từ";
+        byId("f-price").textContent = (same ? "Đồng giá " : "Giá từ ") + k(r.min);
       }
+      const nz = (CFG.communes || []).length;
+      byId("f-zones").textContent = nz ? "Ship " + nz + " xã Quốc Oai" : "Tự qua quán lấy";
+      // Gộp theo mốc: "Freeship từ 2 chai: A, B, C. Từ 3 chai: 7 xã khác..."
+      const groups = {};
+      (CFG.communes || []).filter((c) => c.free_from_cups && Number(c.fee) > 0)
+        .forEach((c) => (groups[c.free_from_cups] = groups[c.free_from_cups] || []).push(c.name));
+      const keys = Object.keys(groups).map(Number).sort((a, b) => a - b);
+      byId("free-hint").textContent = keys.map((n, i) => {
+        const names = groups[n];
+        const list = names.length <= 4 ? names.join(", ") : names.length + " xã";
+        return (i === 0 ? "Freeship từ " : "Từ ") + n + " chai: " + list + ".";
+      }).join(" ") + (keys.length ? " Chọn xã ở mục Phí ship để xem chi tiết." : "");
+      if (keys.length) byId("f-zones").textContent = "Freeship từ " + keys[0] + " chai";
     }
 
+    /* ---------- menu: kệ chai ---------- */
     function renderMenu() {
-      const box = byId("menu-box");
       const list = CFG.products || [];
-      console.log("menu that", list);
       if (!list.length) {
-        box.innerHTML = '<div class="menu-loading">Quán chưa đăng món nào — quay lại sau nhé!</div>';
+        byId("menu-box").innerHTML = '<div class="menu-loading">Quán chưa lên món nào, quay lại sau nhé!</div>';
         return;
       }
-      box.innerHTML = '<div class="grid">' + list.map((p) => productCard(p, false)).join("") + "</div>";
+      byId("menu-box").innerHTML =
+        '<div class="shelf" id="shelf" tabindex="0" aria-label="Danh sách món, cuộn ngang">' +
+        list.map((p) => `
+          <article class="item">
+            <img src="${esc(imgOf(p.product_id))}" alt="${esc(p.name)}" loading="lazy" draggable="false" />
+            ${isIllustration(imgOf(p.product_id)) ? '<span class="illu">ảnh minh hoạ</span>' : ""}
+            <h3>${esc(p.name)}</h3>
+            <p>${esc(DESC_BY_ID[p.product_id] || DESC_FALLBACK)}</p>
+            <button class="btn btn-paper btn-sm add" type="button" data-id="${esc(p.product_id)}">+ ${k(p.price)}</button>
+          </article>`).join("") +
+        "</div>";
+      initShelf(byId("shelf"));
     }
 
+    /* ============================================================
+       Kệ cuộn ngang — mọi kiểu cuộn đều nhận, không giật ngược:
+       - Lăn chuột dọc (wheel deltaY) → cuộn ngang mượt; tới mép kệ thì nhường lại cho trang cuộn dọc.
+       - Trackpad/Shift+lăn (deltaX) → để trình duyệt tự cuộn, chỉ đồng bộ vị trí.
+       - Kéo chuột, vuốt cảm ứng, phím mũi tên, nút ←/→ đều dùng chung một "đích" nên không bao giờ kéo ngược.
+       ============================================================ */
+    let SHELF = null;
+    function initShelf(el) {
+      if (!el) return;
+      let target = el.scrollLeft, pos = el.scrollLeft, raf = 0;
+      const max = () => Math.max(0, el.scrollWidth - el.clientWidth);
+      const clamp = (v) => Math.max(0, Math.min(max(), v));
+
+      function stop() { if (raf) cancelAnimationFrame(raf); raf = 0; target = pos = el.scrollLeft; }
+      function step() {
+        const d = target - pos;
+        if (Math.abs(d) < 0.6) { pos = target; el.scrollLeft = pos; raf = 0; return; }
+        pos += d * 0.2;
+        el.scrollLeft = pos;
+        raf = requestAnimationFrame(step);
+      }
+      function go(t) {
+        target = clamp(t);
+        if (!raf) { pos = el.scrollLeft; raf = requestAnimationFrame(step); }
+      }
+
+      el.addEventListener("wheel", (e) => {
+        if (e.ctrlKey) return; // phóng to trang
+        const unit = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? el.clientWidth : 1;
+        const dx = e.deltaX * unit, dy = e.deltaY * unit;
+        if (Math.abs(dx) > Math.abs(dy)) { if (raf) stop(); return; } // cuộn ngang gốc (trackpad)
+        const base = raf ? target : el.scrollLeft;
+        const next = clamp(base + dy);
+        if (Math.abs(next - base) < 1) return; // đã tới mép → để trang cuộn tiếp
+        e.preventDefault();
+        go(next);
+      }, { passive: false });
+
+      // Đồng bộ đích khi trình duyệt tự cuộn (trackpad, vuốt, phím)
+      el.addEventListener("scroll", () => {
+        if (!raf) target = pos = el.scrollLeft;
+        updateShelfUI();
+      }, { passive: true });
+
+      // Kéo bằng chuột
+      let drag = null, moved = false;
+      el.addEventListener("pointerdown", (e) => {
+        stop();
+        if (e.pointerType !== "mouse" || e.button !== 0) return;
+        drag = { x: e.clientX, left: el.scrollLeft, id: e.pointerId };
+        moved = false;
+      });
+      el.addEventListener("pointermove", (e) => {
+        if (!drag) return;
+        const dx = e.clientX - drag.x;
+        if (!moved && Math.abs(dx) > 5) { moved = true; el.classList.add("dragging"); el.setPointerCapture(drag.id); }
+        if (moved) { el.scrollLeft = drag.left - dx; target = pos = el.scrollLeft; }
+      });
+      const endDrag = () => { drag = null; el.classList.remove("dragging"); };
+      el.addEventListener("pointerup", endDrag);
+      el.addEventListener("pointercancel", endDrag);
+      el.addEventListener("touchstart", stop, { passive: true });
+      // Nút "+": kéo xong thả trên nút thì không tính là bấm
+      el.addEventListener("click", (e) => {
+        if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; return; }
+        const b = e.target.closest(".add");
+        if (b) addToCart(b.dataset.id);
+      }, true);
+
+      const page = () => Math.max(160, el.clientWidth * 0.8);
+      byId("sh-prev").onclick = () => go((raf ? target : el.scrollLeft) - page());
+      byId("sh-next").onclick = () => go((raf ? target : el.scrollLeft) + page());
+
+      SHELF = { el, max };
+      updateShelfUI();
+    }
+    function updateShelfUI() {
+      if (!SHELF) return;
+      const { el, max } = SHELF;
+      const m = max();
+      const ratio = el.scrollWidth ? el.clientWidth / el.scrollWidth : 1;
+      const bar = byId("sh-bar");
+      bar.style.width = Math.max(12, ratio * 100) + "%";
+      bar.style.transform = "translateX(" + (m ? (el.scrollLeft / m) * (100 / Math.max(ratio, .12) - 100) : 0) + "%)";
+      byId("sh-prev").disabled = el.scrollLeft <= 1;
+      byId("sh-next").disabled = el.scrollLeft >= m - 1;
+    }
+    window.addEventListener("resize", updateShelfUI);
+
+    /* ---------- phí ship theo xã ---------- */
     function renderFees() {
       const communes = CFG.communes || [];
-      const ul = byId("fee-list");
-      if (!communes.length) {
-        ul.innerHTML = '<li style="border:none;color:var(--taupe)">Hiện quán chỉ nhận tự đến lấy.</li>';
-        byId("fee-note").textContent = "";
-        return;
-      }
-      ul.innerHTML = communes.map((c) => {
-        const free = c.free_from_cups ? ` <span style="color:var(--green);font-size:12px">(miễn phí từ ${c.free_from_cups} phần)</span>` : "";
-        return `<li><span>${c.name}${free || ""}</span><span class="fee">${c.fee ? fmt(c.fee) : "Miễn phí"}</span></li>`;
-      }).join("");
-      byId("fee-note").textContent = "Phí và danh sách xã chỉnh trong Google Sheet của quán — trang luôn hiển thị bản mới nhất.";
-      // byId("fee-tulay").textContent = fmt(CFG.shipping_fees && CFG.shipping_fees.tu_lay);
-      const slots = CFG.delivery_slots || [];
-      byId("foot-slots").textContent = slotsText(slots);
+      byId("fee-list").innerHTML = communes.length
+        ? communes.map((c) => `<li><span>${esc(c.name)}${c.free_from_cups ? " · miễn ship từ " + c.free_from_cups + " chai" : ""}</span><span class="fee">${c.fee ? fmt(c.fee) : "Miễn phí"}</span></li>`).join("")
+        : "<li>Hiện quán chỉ nhận tự qua lấy.</li>";
+      byId("q-zone").innerHTML = '<option value="">— Chọn xã —</option>' +
+        communes.map((c) => `<option value="${esc(c.name)}">${esc(c.name)}</option>`).join("");
+      byId("foot-slots").textContent = slotsText(CFG.delivery_slots);
+      renderQuote();
     }
-
     function slotsText(slots) {
       if (!slots || !slots.length) return "theo giờ quán mở";
       return slots.map((s) => s.start + "–" + s.end).join(" · ");
     }
+    function communeByName(name) { return ((CFG && CFG.communes) || []).find((c) => c.name === name) || null; }
+    function renderQuote() {
+      const box = byId("quote");
+      if (!CFG) return;
+      const c = communeByName(byId("q-zone").value);
+      const r = priceRange();
+      if (!c) { box.innerHTML = '<span style="color:var(--ink-2)">Chọn xã để xem phí.</span>'; return; }
+      const p = r ? r.min : 0;
+      const fee = Number(c.fee) || 0;
+      const two = c.free_from_cups && c.free_from_cups <= 2 ? 0 : fee;
+      box.innerHTML = fee
+        ? `Ship ${esc(c.name)}: <b>${k(fee)}</b><br/>1 chai ${k(p + fee)} · 2 chai ${k(2 * p + two)}` +
+          (c.free_from_cups ? `<br/><span class="ok">Đặt từ ${c.free_from_cups} chai được miễn ship.</span>` : "")
+        : `<span class="ok">Ship ${esc(c.name)} miễn phí.</span>`;
+      // chọn sẵn xã này trong giỏ
+      const fz = byId("f-zone");
+      if (fz && [...fz.options].some((o) => o.value === c.name)) { fz.value = c.name; renderTotals(); }
+    }
 
     function renderPayOptions() {
       const show = CFG && CFG.transfer_enabled;
+      const cur = (document.querySelector('input[name="payment"]:checked') || {}).value || "cod";
       byId("pay-chips").innerHTML =
-        '<label class="chip"><input type="radio" name="payment" value="cod" checked /><span>Tiền mặt khi nhận</span></label>' +
-        (show ? '<label class="chip"><input type="radio" name="payment" value="chuyen_khoan" /><span>Chuyển khoản (quét QR)</span></label>' : "");
+        `<label class="chip"><input type="radio" name="payment" value="cod" ${cur === "cod" || !show ? "checked" : ""} /><span>Tiền mặt khi nhận</span></label>` +
+        (show ? `<label class="chip"><input type="radio" name="payment" value="chuyen_khoan" ${cur === "chuyen_khoan" ? "checked" : ""} /><span>Chuyển khoản</span></label>` : "");
     }
 
-    /* ---- giỏ hàng ---- */
-    function cartCount() { return CART.reduce((s, l) => s + l.qty, 0); }
-    function cartSub() { return CART.reduce((s, l) => s + l.qty * linePrice(l), 0); }
-
-    function toppingPrice(topId) {
-      const t = ((CFG || {}).toppings || []).find((x) => x.topping_id === topId);
-      return t ? Number(t.price) || 0 : 0;
+    function populateCommunes() {
+      const sel = byId("f-zone");
+      const keep = sel.value || byId("q-zone").value;
+      const communes = (CFG && CFG.communes) || [];
+      sel.innerHTML = communes.length
+        ? '<option value="">— Chọn xã —</option>' + communes.map((c) => {
+            const label = c.name + (c.fee ? " · " + fmt(c.fee) + (c.free_from_cups ? " (miễn từ " + c.free_from_cups + " chai)" : "") : " · miễn phí");
+            return `<option value="${esc(c.name)}">${esc(label)}</option>`;
+          }).join("")
+        : '<option value="">Quán tạm không ship, chọn tự qua lấy nhé</option>';
+      if (communes.some((c) => c.name === keep)) sel.value = keep;
     }
-    function linePrice(l) {
-      return (Number(l.price) || 0) + [...l.tops].reduce((s, id) => s + toppingPrice(id), 0);
+    function onZoneChange(v) {
+      if (v && [...byId("q-zone").options].some((o) => o.value === v)) byId("q-zone").value = v;
+      renderTotals();
     }
 
-    function addToCart(productId) {
-      if (!CFG) return toast("Chưa tải được thực đơn, thử lại nhé");
-      const p = findProduct(productId);
+    /* ---------- khung giờ (giờ Việt Nam) ---------- */
+    function vnNow() { const now = new Date(); return new Date(now.getTime() + (now.getTimezoneOffset() + 420) * 60000); }
+    function vnDateStr() { const v = vnNow(); return v.getFullYear() + "-" + String(v.getMonth() + 1).padStart(2, "0") + "-" + String(v.getDate()).padStart(2, "0"); }
+    function vnMinutes() { const v = vnNow(); return v.getHours() * 60 + v.getMinutes(); }
+    function openSlots() {
+      if (!CFG) return [];
+      const lead = Number(CFG.slot_lead_minutes) || 0;
+      const mins = vnMinutes();
+      return (CFG.delivery_slots || []).filter((s) => Number(s.end) * 60 - mins > lead);
+    }
+    function renderSlots() {
+      const open = openSlots();
+      const all = CFG.delivery_slots || [];
+      byId("slot-today").innerHTML = all.length
+        ? all.map((s) => {
+            const isOpen = open.includes(s);
+            const cls = isOpen ? (s === open[0] ? "on" : "") : "off";
+            return `<span class="${cls}">${s.start}–${s.end}h${s === open[0] ? " · còn nhận" : ""}</span>`;
+          }).join("")
+        : "<span>Theo giờ quán mở</span>";
+
+      const box = byId("slot-chips");
+      const cur = chosenSlot();
+      if (!open.length) {
+        box.innerHTML = '<span class="note" style="margin:0">Hôm nay hết khung ship rồi. Bạn vẫn chọn "Tự qua quán lấy" được nhé.</span>';
+        byId("slot-note").textContent = "";
+        return;
+      }
+      box.innerHTML = open.map((s, i) => {
+        const v = s.start + "-" + s.end;
+        const checked = cur ? cur === v : i === 0;
+        return `<label class="chip"><input type="radio" name="slot" value="${v}" ${checked ? "checked" : ""} /><span>${s.start}–${s.end}h</span></label>`;
+      }).join("");
+      if (!document.querySelector('input[name="slot"]:checked')) box.querySelector("input").checked = true;
+      byId("slot-note").textContent = "Quán giao trong khung bạn chọn, cần đổi giờ quán sẽ gọi.";
+    }
+    function chosenSlot() { const el = document.querySelector('input[name="slot"]:checked'); return el ? el.value : ""; }
+
+    function renderStatus() {
+      const st = byId("status"), tx = byId("status-text");
+      if (!CFG) return;
+      if (CFG.orders_open === false) {
+        st.className = "status closed";
+        tx.textContent = "Quán đang tạm nghỉ nhận đơn. Menu vẫn xem được, quay lại sau nhé.";
+        return;
+      }
+      const open = openSlots();
+      st.className = openSlots().length ? "status" : "status closed";
+      tx.textContent = open.length
+        ? "Đang nhận đơn · khung gần nhất còn nhận: " + open[0].start + "–" + open[0].end + "h hôm nay"
+        : "Hôm nay hết khung giờ nhận ship. Vẫn đặt tự qua lấy được, hoặc đặt hàng trước cho sáng mai nhé.";
+    }
+    setInterval(() => { if (CFG) { renderSlots(); renderStatus(); } }, 60000);
+
+    /* ---------- giỏ hàng ---------- */
+    const cartCount = () => CART.reduce((s, l) => s + l.qty, 0);
+    const cartSub = () => CART.reduce((s, l) => s + l.qty * linePrice(l), 0);
+    function toppingPrice(id) { const t = ((CFG || {}).toppings || []).find((x) => x.topping_id === id); return t ? Number(t.price) || 0 : 0; }
+    function linePrice(l) { return (Number(l.price) || 0) + [...l.tops].reduce((s, id) => s + toppingPrice(id), 0); }
+
+    function addToCart(id) {
+      if (!CFG) return toast("Menu chưa tải xong, chờ chút nhé");
+      const p = findProduct(id);
       if (!p) return;
-      const line = CART.find((l) => l.product_id === productId);
+      const line = CART.find((l) => l.product_id === id);
       if (line) line.qty = Math.min(99, line.qty + 1);
-      else CART.push({ product_id: productId, name: p.name, price: Number(p.price) || 0, qty: 1, tops: new Set() });
+      else CART.push({ product_id: id, name: p.name, price: Number(p.price) || 0, qty: 1, tops: new Set() });
       refreshCart();
-      toast("Đã thêm " + p.name + " vào giỏ");
+      const fab = byId("cart-fab");
+      fab.classList.remove("bump"); void fab.offsetWidth; fab.classList.add("bump");
+      toast("Đã thêm " + p.name);
     }
-
     function changeCartQty(i, d) {
       CART[i].qty = Math.max(0, Math.min(99, CART[i].qty + d));
       if (CART[i].qty === 0) CART.splice(i, 1);
       refreshCart();
     }
     function removeLine(i) { CART.splice(i, 1); refreshCart(); }
-    function toggleTop(i, topId, v) {
-      if (v) CART[i].tops.add(topId); else CART[i].tops.delete(topId);
-      refreshCart();
-    }
-
-    /* ---- khung giờ giao (hệ thống bắt buộc với đơn giao tận nơi) ---- */
-    /* Giờ Việt Nam trên máy khách, để lọc khung giờ còn nhận. */
-    function vnNow() {
-      const now = new Date();
-      return new Date(now.getTime() + (now.getTimezoneOffset() + 7 * 60) * 60000);
-    }
-    function vnDateStr() {
-      const vn = vnNow();
-      return vn.getFullYear() + "-" + String(vn.getMonth() + 1).padStart(2, "0") + "-" + String(vn.getDate()).padStart(2, "0");
-    }
-    function vnMinutes() {
-      const vn = vnNow();
-      return vn.getHours() * 60 + vn.getMinutes();
-    }
-    /* Hệ thống ẩn khung khi còn ít hơn slot_lead_minutes tới giờ kết thúc. */
-    function openSlots() {
-      if (!CFG) return [];
-      const lead = Number(CFG.slot_lead_minutes) || 0;
-      const mins = vnMinutes();
-      return (CFG.delivery_slots || []).filter((s) => (Number(s.end) * 60 - mins) > lead);
-    }
-    function renderSlots() {
-      const box = byId("slot-chips");
-      const note = byId("slot-note");
-      const open = openSlots();
-      if (!open.length) {
-        box.innerHTML = '<span style="font-size:13px;color:var(--taupe)">Hôm nay đã hết khung giao — bạn vẫn chọn "Tự đến lấy" được nhé.</span>';
-        note.textContent = "";
-        return;
-      }
-      box.innerHTML = open.map((s, i) =>
-        '<label class="chip"><input type="radio" name="slot" value="' + s.start + "-" + s.end + '"' +
-        (i === 0 ? " checked" : "") + " /><span>" + s.start + "–" + s.end + "h</span></label>").join("");
-      note.textContent = "Đơn sẽ được giao trong khung bạn chọn; quán gọi nếu cần đổi.";
-    }
-    function chosenSlot() {
-      const el = document.querySelector('input[name="slot"]:checked');
-      return el ? el.value : ""; // dạng "20-22"
-    }
+    function toggleTop(i, id, v) { if (v) CART[i].tops.add(id); else CART[i].tops.delete(id); refreshCart(); }
 
     function deliveryMethod() { return document.querySelector('input[name="delivery"]:checked').value; }
-    function chosenCommune() {
-      const sel = byId("f-zone");
-      const c = (CFG.communes || []).find((x) => x.name === sel.value);
-      return c || null;
-    }
+    function chosenCommune() { return communeByName(byId("f-zone").value); }
     function shippingFee() {
+      if (!CFG) return 0;
       if (deliveryMethod() !== "giao") return Number(CFG.shipping_fees && CFG.shipping_fees.tu_lay) || 0;
       const c = chosenCommune();
       if (!c) return 0;
@@ -903,125 +926,118 @@ function loadConfig() {
 
     function refreshCart() {
       const n = cartCount();
-      const fab = byId("cart-fab");
-      if (n === 0) {
-        fab.classList.remove("show");
-        document.querySelector(".topbar .btn-primary").textContent = "Giỏ hàng";
-      } else {
-        fab.classList.add("show");
-        byId("fab-total").textContent = fmt(cartSub() + shippingFee());
-        byId("fab-count").textContent = n;
-        document.querySelector(".topbar .btn-primary").textContent = "Giỏ hàng · " + n;
-      }
+      byId("cart-n").textContent = n;
+      byId("fab-count").textContent = n;
+      byId("cart-fab").classList.toggle("show", n > 0 && !byId("drawer").classList.contains("show"));
 
       const box = byId("cart-lines");
       if (!CART.length) {
-        // đơn vừa gửi xong — giữ nguyên panel thành công, đừng vẽ lại giỏ trống
         if (!byId("order-success").hidden) { box.innerHTML = ""; return; }
-        box.innerHTML =
-          '<div class="cart-empty">Giỏ hàng đang trống.<br />Chọn vài món từ thực đơn nhé!<br />' +
-          '<button class="btn btn-ghost btn-sm" onclick="closeCart()">Xem menu</button></div>';
+        box.innerHTML = '<div class="cart-empty">Giỏ đang trống.<br/>Chọn vài chai trên kệ nhé!<br/><button class="btn btn-ink btn-sm" onclick="closeCart(); location.hash=\'#menu\'">Xem kệ chai</button></div>';
         byId("checkout").hidden = true;
-        byId("order-success").hidden = true;
         return;
       }
-
-      const tops = (CFG.toppings || []);
+      const tops = (CFG && CFG.toppings) || [];
       byId("order-success").hidden = true;
       byId("checkout").hidden = false;
       box.innerHTML = CART.map((l, i) => `
         <div class="c-line">
-          <div class="top">
-            <img src="${imgOf(l.product_id)}" alt="" />
-            <div>
-              <div class="nm">${l.name}</div>
-              <div class="pr">${fmt(l.price)}${l.tops.size ? " + topping" : ""}</div>
-            </div>
-            <button class="rm" onclick="removeLine(${i})" aria-label="Bỏ món">✕</button>
-          </div>
-          ${tops.length ? `<div class="c-tops">${tops.map((t) => `
-            <label><input type="checkbox" ${l.tops.has(t.topping_id) ? "checked" : ""} onchange="toggleTop(${i}, '${t.topping_id}', this.checked)" /> ${t.name}${t.price ? " +" + fmt(t.price) : ""}</label>`).join("")}</div>` : ""}
-          <div class="mid">
+          <img src="${esc(imgOf(l.product_id))}" alt="" />
+          <div class="info">
+            <div class="nm">${esc(l.name)}</div>
+            <div class="pr">${fmt(l.price)}${l.tops.size ? " + topping" : ""}</div>
+            ${tops.length ? `<div class="c-tops">${tops.map((t) => `<label><input type="checkbox" ${l.tops.has(t.topping_id) ? "checked" : ""} onchange="toggleTop(${i}, '${esc(t.topping_id)}', this.checked)" /> ${esc(t.name)}${t.price ? " +" + fmt(t.price) : ""}</label>`).join("")}</div>` : ""}
             <span class="stepper">
-              <button type="button" onclick="changeCartQty(${i}, -1)" aria-label="Bớt một">−</button>
+              <button type="button" onclick="changeCartQty(${i}, -1)" aria-label="Bớt một chai">−</button>
               <span class="qty">${l.qty}</span>
-              <button type="button" onclick="changeCartQty(${i}, 1)">+</button>
+              <button type="button" onclick="changeCartQty(${i}, 1)" aria-label="Thêm một chai">+</button>
             </span>
+          </div>
+          <div class="right">
+            <button class="rm" type="button" onclick="removeLine(${i})" aria-label="Bỏ món">✕</button>
             <span class="sum">${fmt(l.qty * linePrice(l))}</span>
           </div>
         </div>`).join("");
-
       renderTotals();
     }
 
     function renderTotals() {
+      const fee = shippingFee();
       byId("t-cups").textContent = cartCount();
       byId("t-sub").textContent = fmt(cartSub());
-      byId("t-fee-lbl").textContent = deliveryMethod() === "giao" ? "Phí giao hàng" : "Phí giao hàng (tự đến lấy)";
-      byId("t-fee").textContent = shippingFee() === 0 ? "0đ" : fmt(shippingFee());
-      byId("t-total").textContent = fmt(cartSub() + shippingFee());
-      byId("fab-total").textContent = fmt(cartSub() + shippingFee());
+      const isGiao = deliveryMethod() === "giao";
+      byId("t-fee-lbl").textContent = isGiao ? (chosenCommune() ? "Phí ship " + chosenCommune().name : "Phí ship (chọn xã)") : "Phí ship (tự qua lấy)";
+      byId("t-fee").textContent = fmt(fee);
+      byId("t-total").textContent = fmt(cartSub() + fee);
+      byId("fab-total").textContent = fmt(cartSub() + fee);
+      renderFreeNudge();
+    }
+    /* "Thêm N chai nữa là miễn ship" — dùng cột miễn ship từ N phần của từng xã trong Sheet */
+    function renderFreeNudge() {
+      const el = byId("free-nudge");
+      const c = deliveryMethod() === "giao" ? chosenCommune() : null;
+      const need = c && c.free_from_cups ? Number(c.free_from_cups) - cartCount() : null;
+      if (!c || !c.free_from_cups || !(Number(c.fee) > 0)) { el.hidden = true; return; }
+      el.hidden = false;
+      if (need > 0) {
+        el.className = "free-nudge";
+        el.textContent = "Thêm " + need + " chai nữa là được miễn ship " + k(c.fee) + " nhé!";
+      } else {
+        el.className = "free-nudge ok";
+        el.textContent = "Đơn đã được miễn ship tới " + c.name + " 🎉";
+      }
     }
 
     function onDeliveryChange() {
       const isGiao = deliveryMethod() === "giao";
-      byId("giao-wrap").style.display = isGiao ? "" : "none";
+      byId("giao-wrap").hidden = !isGiao;
       byId("tulay-wrap").hidden = isGiao;
       renderTotals();
     }
 
-    /* ---- menu điện thoại ---- */
-    function toggleNav(force) {
-      const nav = byId("mobilenav");
-      const show = force !== undefined ? force : !nav.classList.contains("show");
-      nav.classList.toggle("show", show);
-      byId("hamburger").setAttribute("aria-expanded", show ? "true" : "false");
-      byId("hamburger").textContent = show ? "✕" : "☰";
-    }
-
-    /* ---- mở/đóng giỏ ---- */
     function openCart() {
       refreshCart();
       byId("drawer").classList.add("show");
+      byId("drawer").setAttribute("aria-hidden", "false");
       byId("overlay").classList.add("show");
+      byId("cart-fab").classList.remove("show");
       document.body.style.overflow = "hidden";
     }
     function closeCart() {
       byId("drawer").classList.remove("show");
+      byId("drawer").setAttribute("aria-hidden", "true");
       byId("overlay").classList.remove("show");
       document.body.style.overflow = "";
+      refreshCart();
     }
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && byId("drawer").classList.contains("show")) closeCart(); });
 
-    /* ---- gửi đơn qua hệ thống của quán ---- */
+    /* ---------- gửi đơn ---------- */
+    function showMsg(kind, text) { const el = byId("form-msg"); el.className = "form-msg " + kind; el.textContent = text; }
     function newSubmissionId() {
       if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
       return "web-" + Date.now() + "-" + Math.random().toString(36).slice(2);
     }
 
     function submitOrder() {
-      if (!CART.length) return showMsg("error", "Giỏ hàng đang trống — chọn món trước nhé.");
+      if (!CART.length) return showMsg("error", "Giỏ đang trống, chọn chai trước nhé.");
       const name = byId("f-name").value.trim();
       const phone = byId("f-phone").value.trim().replace(/[\s.\-]/g, "");
       const isGiao = deliveryMethod() === "giao";
-      // Đơn tự lấy: gộp "dự kiến đến lấy" vào ghi chú — đi qua trường note có sẵn, không đổi hợp đồng API.
-      const note = [
-        byId("f-note").value.trim(),
-        isGiao ? "" : byId("f-pickup").value.trim() ? "Dự kiến đến lấy: " + byId("f-pickup").value.trim() : ""
-      ].filter(Boolean).join(". ");
+      const pickup = byId("f-pickup").value.trim();
+      const note = [byId("f-note").value.trim(), !isGiao && pickup ? "Dự kiến đến lấy: " + pickup : ""].filter(Boolean).join(". ");
       const commune = chosenCommune();
       const address = isGiao ? byId("f-address").value.trim() : "";
       const payEl = document.querySelector('input[name="payment"]:checked');
       const slot = isGiao ? chosenSlot() : "";
 
-      if (!name || name.length < 2) return showMsg("error", "Vui lòng điền tên khách.");
+      if (name.length < 2) return showMsg("error", "Bạn điền tên giúp quán nhé.");
       if (!/^0\d{8,10}$/.test(phone)) return showMsg("error", "Số điện thoại chưa đúng (VD: 0912345678).");
-      if (isGiao && !commune) return showMsg("error", "Vui lòng chọn xã giao hàng.");
-      if (isGiao && !slot) return showMsg("error", "Vui lòng chọn khung giờ giao.");
-      if (isGiao && address.length < 6) return showMsg("error", "Vui lòng điền địa chỉ giao hàng.");
-      if (byId("closed-banner").classList.contains("show")) return showMsg("error", "Quán đang tạm đóng nhận đơn.");
+      if (isGiao && !commune) return showMsg("error", "Bạn chọn xã để quán tính phí ship nhé.");
+      if (isGiao && !slot) return showMsg("error", "Hôm nay hết khung ship, bạn chọn tự qua lấy nhé.");
+      if (isGiao && address.length < 6) return showMsg("error", "Bạn ghi rõ địa chỉ giúp quán (thôn/xóm, số nhà).");
+      if (CFG && CFG.orders_open === false) return showMsg("error", "Quán đang tạm nghỉ nhận đơn, bạn quay lại sau nhé.");
 
-      // Đúng hợp đồng kênh landing của hệ thống: source=landing bắt buộc,
-      // delivery_slot dạng "2026-11-04 20–22h" (gạch ngang –), đơn tự lấy để trống
       const payload = {
         source: "landing",
         submission_id: window._umeSub || (window._umeSub = newSubmissionId()),
@@ -1030,67 +1046,47 @@ function loadConfig() {
         items: CART.map((l) => ({ product_id: l.product_id, quantity: l.qty, toppings: [...l.tops] })),
         delivery_method: deliveryMethod(),
         zone: isGiao && commune ? commune.name : "",
-        address: isGiao ? address : "",
+        address,
         delivery_slot: slot ? vnDateStr() + " " + slot.replace("-", "–") + "h" : "",
         payment_method: payEl ? payEl.value : "cod",
         note,
         needs_call: false
       };
 
-      showMsg("wait", "Đang gửi đơn đến quán...");
+      showMsg("wait", "Đang gửi đơn cho quán...");
       const btn = byId("btn-submit");
       btn.disabled = true;
 
-      fetch(GAS_URL, {
-        method: "POST",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify(payload),
-        redirect: "follow"
-      })
+      fetch(GAS_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload), redirect: "follow" })
         .then((r) => r.json())
         .then((res) => {
           btn.disabled = false;
-          if (!res.ok) {
-            showMsg("error", res.message || "Gửi đơn chưa thành công. Vui lòng thử lại.");
-            return;
-          }
-          window._umeSub = null; // đơn mới lần sau có mã gửi mới
+          if (!res.ok) return showMsg("error", res.message || "Gửi đơn chưa được, bạn thử lại nhé.");
+          window._umeSub = null;
           CART = [];
           byId("checkout").hidden = true;
-          byId("cart-lines").innerHTML = "";
+          byId("form-msg").className = "form-msg";
           const s = byId("order-success");
           s.hidden = false;
           byId("s-code").textContent = res.order_code;
           byId("s-detail").textContent =
-            fmt(res.total) + (res.shipping_fee ? " (gồm ship " + fmt(res.shipping_fee) + ")" : "") +
+            "Tổng " + fmt(res.total) + (res.shipping_fee ? " (gồm ship " + fmt(res.shipping_fee) + ")" : "") +
             (res.delivery_slot ? " · giao " + res.delivery_slot : "") +
-            (payload.delivery_method === "tu_lay" ? " · tự đến lấy" : "");
+            (payload.delivery_method === "tu_lay" ? " · tự qua lấy" : "");
           refreshCart();
           s.scrollIntoView({ behavior: "smooth", block: "nearest" });
         })
         .catch(() => {
           btn.disabled = false;
-          showMsg("error", "Chưa gửi được — kiểm tra mạng rồi bấm gửi lại. Đơn sẽ không bị trùng.");
+          showMsg("error", "Chưa gửi được. Kiểm tra mạng rồi bấm gửi lại, đơn không bị trùng đâu.");
         });
     }
 
     function resetCart() {
       byId("order-success").hidden = true;
-      byId("checkout").hidden = false;
       byId("form-msg").className = "form-msg";
-      refreshCart();
-    }
-
-    /* ---- khởi động ---- */
-    function populateCommunes() {
-      const sel = byId("f-zone");
-      const communes = (CFG && CFG.communes) || [];
-      sel.innerHTML = communes.length
-        ? communes.map((c) => {
-            const label = c.name + (c.fee ? " · " + fmt(c.fee) + (c.free_from_cups ? " (miễn từ " + c.free_from_cups + " phần)" : "") : " · miễn phí");
-            return `<option value="${c.name}">${label}</option>`;
-          }).join("")
-        : '<option value="">(Quán tạm không giao — tự đến lấy)</option>';
+      closeCart();
+      location.hash = "#menu";
     }
 
     loadConfig();
