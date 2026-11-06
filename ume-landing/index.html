@@ -194,7 +194,8 @@
     /* ===== footer ===== */
     footer { background: var(--ink); color: var(--cream); padding: 40px 0 90px; }
     .foot { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 26px; }
-    .foot h4 { font-size: 26px; font-weight: 900; letter-spacing: -1px; }
+    .foot h4 { font-size: 26px; font-weight: 900; letter-spacing: -1px; margin-bottom: 8px; }
+    .foot .stamp { width: 118px; height: 118px; transform: rotate(-8deg); filter: drop-shadow(0 4px 10px rgba(0, 0, 0, .35)); }
     .foot h5 { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--mango); margin-bottom: 8px; }
     .foot p, .foot li { font-size: 14px; color: #EADBC2; margin-top: 4px; }
     .foot ul { list-style: none; }
@@ -316,7 +317,7 @@
   <!-- ===== thanh trên ===== -->
   <header class="topbar">
     <div class="wrap">
-      <a class="logo" href="#top" aria-label="Ume, về đầu trang"><img src="img/logo-ink.png" alt="Ume" width="90" height="52" /></a>
+      <a class="logo" href="#top" aria-label="Ume, về đầu trang"><img src="img/logo-ink-cat.png" alt="Ume" width="90" height="52" /></a>
       <nav class="topnav" aria-label="Điều hướng">
         <a href="#dai">Dài cỡ nào</a>
         <a href="#menu">Menu</a>
@@ -428,7 +429,7 @@
   <footer id="lien-he">
     <div class="wrap foot">
       <div>
-        <h4><img src="img/logo-cream.png" alt="Ume" style="height:64px;width:auto" loading="lazy" /></h4>
+        <h4><img class="stamp" src="img/logo-stamp.png" alt="Ume House, est. 2026" width="118" height="118" loading="lazy" /></h4>
         <p>Trà sữa Điếu Cày siêu dài · Quốc Oai, Hà Nội</p>
         <p>Nhận đơn theo khung: <b id="foot-slots">9–11 · 15–17 · 20–22</b></p>
       </div>
