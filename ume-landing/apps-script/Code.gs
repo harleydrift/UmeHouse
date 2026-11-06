@@ -120,7 +120,7 @@ var HEADER_LABELS = {
     notified_at: 'Đã báo', submission_id: 'Mã gửi', items: 'Chi tiết', transfer_qr_url: 'QR'
   },
   'Cấu hình': { ghi_chu: 'Ý nghĩa', value: 'Giá trị', key: 'Khoá' },
-  'Món': { product_id: 'Mã', name: 'Tên', price: 'Giá', status: 'Trạng thái' },
+  'Món': { product_id: 'Mã', name: 'Tên', price: 'Giá', status: 'Trạng thái', image_url: 'Link ảnh' },
   'Topping': { topping_id: 'Mã', name: 'Tên', price: 'Giá', status: 'Trạng thái' },
   'Đơn lỗi': {
     response_id: 'Mã', created_at: 'Giờ', error_code: 'Lỗi', message: 'Lý do',
@@ -159,7 +159,11 @@ var HEADER_OLD_LABELS = {
     submission_id: 'Mã lần đặt', items: 'Chi tiết hệ thống', transfer_qr_url: 'Link QR'
   },
   'Cấu hình': { ghi_chu: 'Ghi chú' },
-  'Món': { product_id: 'Mã món', name: 'Tên món' },
+  'Món': {
+    product_id: 'Mã món', name: 'Tên món',
+    // Nhóm có thể đã tự thêm cột ảnh với tên khác; setup đổi về "Link ảnh" ngay tại chỗ.
+    image_url: ['link ảnh', 'Link Ảnh', 'Link hình', 'Link ảnh món', 'Ảnh', 'Ảnh món', 'Hình', 'Hình ảnh', 'Image', 'image']
+  },
   'Topping': { topping_id: 'Mã topping', name: 'Tên topping' },
   'Đơn lỗi': {
     response_id: 'Mã phản hồi', created_at: 'Lúc gửi', error_code: 'Mã lỗi', answers: 'Nội dung đã gửi',
@@ -167,7 +171,7 @@ var HEADER_OLD_LABELS = {
   }
 };
 var CONFIG_COLUMN_WIDTHS = { ghi_chu: 480, value: 220, key: 220 };
-var PRODUCT_COLUMN_WIDTHS = { product_id: 190, name: 260, price: 100, status: 100 };
+var PRODUCT_COLUMN_WIDTHS = { product_id: 190, name: 260, price: 100, status: 100, image_url: 320 };
 var TOPPING_COLUMN_WIDTHS = { topping_id: 170, name: 240, price: 100, status: 100 };
 var BACKUP_COLUMN_WIDTHS = { response_id: 180, created_at: 150, error_code: 130, message: 300, answers: 460, notified_at: 150 };
 var SHIPPING_COLUMN_WIDTHS = { commune: 180, fee: 120, free_from_cups: 140, distance_km: 190, note: 360 };
@@ -204,7 +208,9 @@ var PAYMENT_STATUS_VALUES = ['cod', 'cho_chuyen_khoan', 'da_nhan'];
 var BACKUP_ERROR_HEADERS = ['response_id', 'created_at', 'error_code', 'message', 'answers', 'notified_at'];
 
 var CATALOG_STATUS_VALUES = ['active', 'inactive'];
-var PRODUCT_HEADERS = ['product_id', 'name', 'price', 'status'];
+var PRODUCT_HEADERS = ['product_id', 'name', 'price', 'status', 'image_url'];
+var PRODUCT_IMAGE_NOTE = 'Link ảnh món cho trang bán hàng, bắt đầu bằng https://. ' +
+  'Ảnh Google Drive phải chia sẻ "Bất kỳ ai có đường liên kết". Được dán link thẳng, =IMAGE("link") hoặc chữ gắn link. Để trống là không có ảnh';
 var TOPPING_HEADERS = ['topping_id', 'name', 'price', 'status'];
 var CONFIG_HEADERS = ['ghi_chu', 'value', 'key'];
 
@@ -1480,9 +1486,34 @@ function lastGoodConfig_() {
 
 function readCatalog_() {
   return {
-    products: buildCatalogList(readTable_(SHEET_PRODUCTS).rows, 'product_id'),
+    products: buildCatalogList(readProductRows_(), 'product_id'),
     toppings: buildCatalogList(readTable_(SHEET_TOPPINGS).rows, 'topping_id')
   };
+}
+
+/**
+ * Tab Món, kèm link ảnh đã gỡ ra từ ô: link dán thẳng, công thức =IMAGE/=HYPERLINK, chữ gắn link hoặc ảnh chèn vào ô.
+ * Tab chưa có cột Link ảnh thì đọc như cũ.
+ */
+function readProductRows_() {
+  var table = readTable_(SHEET_PRODUCTS);
+  var column = table.headers.indexOf('image_url') + 1;
+  if (!column || !table.rows.length) return table.rows;
+  var lastRow = table.rows[table.rows.length - 1]._row;
+  var range = table.sheet.getRange(2, column, lastRow - 1, 1);
+  var formulas = range.getFormulas();
+  var richTexts = range.getRichTextValues();
+  table.rows.forEach(function (row) {
+    var index = row._row - 2;
+    var value = row.image_url;
+    // Ảnh chèn vào ô (CellImage) không phải chữ; lấy link gốc nếu Google còn giữ.
+    if (value && typeof value === 'object' && typeof value.getContentUrl === 'function') {
+      try { value = value.getContentUrl() || ''; } catch (err) { value = ''; }
+    }
+    var rich = richTexts[index] && richTexts[index][0];
+    row.image_url = imageCellUrl(value, formulas[index] ? formulas[index][0] : '', rich ? rich.getLinkUrl() : '');
+  });
+  return table.rows;
 }
 
 /** Bảng phí ship đọc mỗi lần dùng, nên nhóm sửa tab là đơn mới áp ngay. Sheet chưa chạy setup thì chưa có tab: chỉ còn tự lấy. */
@@ -1596,12 +1627,15 @@ function setup() {
   // Cột giá trị lẫn đúng sai, số và chữ, nên không đặt định dạng số ở đây.
   applyTabStyle_(config, CONFIG_COLUMN_WIDTHS, ['ghi_chu']);
 
+  // Món, Topping: chỉ điền dòng mẫu khi tab vừa được tạo; nhóm xoá hết dòng thì chạy lại setup vẫn trống.
+  var productsIsNew = !findSheet_(SHEET_PRODUCTS);
   var products = ensureSheet_(ss, SHEET_PRODUCTS, PRODUCT_HEADERS);
-  seedIfEmpty_(products, SEED_PRODUCTS);
+  if (productsIsNew) seedIfEmpty_(products, SEED_PRODUCTS);
   applyCatalogFormats_(products, PRODUCT_COLUMN_WIDTHS);
 
+  var toppingsIsNew = !findSheet_(SHEET_TOPPINGS);
   var toppings = ensureSheet_(ss, SHEET_TOPPINGS, TOPPING_HEADERS);
-  seedIfEmpty_(toppings, SEED_TOPPINGS);
+  if (toppingsIsNew) seedIfEmpty_(toppings, SEED_TOPPINGS);
   applyCatalogFormats_(toppings, TOPPING_COLUMN_WIDTHS);
 
   var backupErrors = ensureSheet_(ss, SHEET_BACKUP_ERRORS, BACKUP_ERROR_HEADERS);
@@ -1641,7 +1675,7 @@ function applyAmountValidation_(sheet, header, condition, help) {
     .setAllowInvalid(false)
     .setHelpText(help)
     .build());
-}
+}   
 
 /**
  * Ô chọn lấy thẳng từ cột tên của tab Món và tab Nguyên liệu, nên thêm món hay nguyên liệu là danh sách tự có.
@@ -1881,7 +1915,9 @@ function applyCatalogFormats_(sheet, widths) {
   applyDropdown_(sheet, 'status', CATALOG_STATUS_VALUES);
   columnRange_(sheet, 'price').setNumberFormat(MONEY_FORMAT_CELL);
   applyTabStyle_(sheet, widths, []);
-  sheet.getRange(1, sheetHeaderKeys_(sheet).indexOf('status') + 1).setNote(CATALOG_STATUS_NOTE);
+  var headers = sheetHeaderKeys_(sheet);
+  sheet.getRange(1, headers.indexOf('status') + 1).setNote(CATALOG_STATUS_NOTE);
+  if (headers.indexOf('image_url') !== -1) sheet.getRange(1, headers.indexOf('image_url') + 1).setNote(PRODUCT_IMAGE_NOTE);
 }
 
 function applyOrderFormats_(sheet) {
@@ -2071,29 +2107,41 @@ function webMenuResponse_(e) {
     .setMimeType(ContentService.MimeType.JAVASCRIPT);
 }
 
-/** Gom menu từ cấu hình có sẵn của script. Nếu project dùng tên hàm khác, chỉ đổi chỗ này. */
+/**
+ * Menu cho landing page, lấy từ cùng nguồn với trang nhập đơn (publicConfig_): món đang bán ở tab Món,
+ * đã bỏ món tạm hết nguyên liệu, kèm link ảnh. staffUiConfig() chỉ có lý do huỷ, không có món.
+ * Giữ các khoá cũ (id, available, trong_2km, den_10km) để landing đang chạy không vỡ; khoá mới thêm vào sau.
+ */
 function webMenuData_() {
-  var cfg = staffUiConfig(); // nếu cần tham số key thì: staffUiConfig(webKey_())
-  var products = (cfg && cfg.products ? cfg.products : []).map(function (p) {
+  var cfg = publicConfig_();
+  var products = cfg.products.map(function (p) {
     return {
-      id: String(p.id != null ? p.id : p.product_id),
-      name: String(p.name != null ? p.name : ''),
-      price: Number(p.price != null ? p.price : (p.base_price != null ? p.base_price : 0)),
-      available: p.available !== false && !p.off
+      id: String(p.product_id),
+      product_id: String(p.product_id),
+      name: String(p.name),
+      price: Number(p.price),
+      available: true,
+      image_url: p.image_url || ''
     };
   });
-  var toppings = (cfg && cfg.toppings ? cfg.toppings : []).map(function (t) {
-    return { id: String(t.id != null ? t.id : ''), name: String(t.name != null ? t.name : ''), price: Number(t.price != null ? t.price : 0) };
+  var toppings = cfg.toppings.map(function (t) {
+    return { id: String(t.topping_id), topping_id: String(t.topping_id), name: String(t.name), price: Number(t.price) };
   });
-  var fees = (cfg && cfg.shipping_fees) || {};
   return {
     ok: true,
+    orders_open: cfg.orders_open,
     products: products,
     toppings: toppings,
     shipping_fees: {
-      trong_2km: Number(fees.trong_2km != null ? fees.trong_2km : 0),
-      den_10km: Number(fees.den_10km != null ? fees.den_10km : 0)
-    }
+      // Phí cũ theo km đã bỏ, phí giao nay theo xã ở communes; giữ 0 cho landing bản cũ.
+      trong_2km: 0,
+      den_10km: 0,
+      tu_lay: Number(cfg.shipping_fees.tu_lay || 0)
+    },
+    communes: cfg.communes,
+    delivery_slots: cfg.delivery_slots,
+    slot_lead_minutes: cfg.slot_lead_minutes,
+    transfer_enabled: cfg.transfer_enabled
   };
 }
 

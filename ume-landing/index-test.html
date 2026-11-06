@@ -32,6 +32,7 @@
       color: var(--ink);
       line-height: 1.65;
       -webkit-font-smoothing: antialiased;
+      overflow-x: clip; /* không bao giờ có thanh cuộn ngang */
     }
     img { display: block; max-width: 100%; }
     .wrap { max-width: 1080px; margin: 0 auto; padding: 0 22px; }
@@ -53,6 +54,20 @@
       color: var(--ink); font-size: 14.5px; font-weight: 500;
     }
     .topnav a:hover { background: var(--cream-2); color: var(--brown-deep); }
+    /* nút menu điện thoại — ẩn trên desktop */
+    .hamburger {
+      display: none; margin-left: auto;
+      background: none; border: 1px solid var(--line); border-radius: 12px;
+      width: 44px; height: 44px; font-size: 20px; color: var(--brown-deep); cursor: pointer;
+      align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .mobilenav { display: none; border-top: 1px solid var(--line); background: var(--white); }
+    .mobilenav.show { display: block; }
+    .mobilenav a {
+      display: block; padding: 13px 24px; text-decoration: none; color: var(--ink);
+      font-size: 15.5px; font-weight: 500; border-bottom: 1px solid var(--line);
+    }
+    .mobilenav a:last-child { border-bottom: none; }
     .btn {
       display: inline-block; border: none; cursor: pointer; text-decoration: none; text-align: center;
       padding: 13px 28px; border-radius: 999px; font-family: inherit;
@@ -66,7 +81,8 @@
     .btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
 
     /* ===== hero ===== */
-    .hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: 40px; align-items: center; padding: 64px 0 56px; }
+    /* padding-block thay padding shorthand: không đè mất padding ngang của .wrap trên cùng phần tử */
+    .hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: 40px; align-items: center; padding-block: 64px 56px; }
     .kicker { font-size: 12px; letter-spacing: 4px; text-transform: uppercase; color: var(--taupe); font-weight: 600; }
     .hero h1 { font-size: 52px; line-height: 1.12; color: var(--brown-deep); margin: 14px 0 8px; font-weight: 800; }
     .hero .slogan { font-size: 19px; color: var(--brown); font-weight: 500; margin-bottom: 16px; }
@@ -133,13 +149,13 @@
 
     /* ===== footer ===== */
     footer { background: var(--brown-deep); color: #f0e7db; margin-top: 40px; }
-    .foot { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 30px; padding: 44px 0 20px; }
+    .foot { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 30px; padding-block: 44px 20px; }
     .foot h4 { font-family: "Playfair Display", Georgia, serif; font-size: 20px; letter-spacing: 2px; margin-bottom: 8px; }
     .foot p, .foot li { font-size: 13.5px; color: #d8cbb8; }
     .foot ul { list-style: none; }
     .foot li { padding: 2px 0; }
     .foot a { color: #ecdcc4; text-decoration: none; }
-    .copy { text-align: center; font-size: 12px; color: #b7a68e; padding: 14px 0 22px; border-top: 1px solid rgba(255,255,255,.08); margin-top: 20px; }
+    .copy { text-align: center; font-size: 12px; color: #b7a68e; padding: 14px 22px 22px; border-top: 1px solid rgba(255,255,255,.08); margin-top: 20px; }
 
     /* ===== closed banner ===== */
     .closed-banner {
@@ -215,6 +231,32 @@
     .chip input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
     .chip span { display: inline-block; padding: 7px 14px; border: 1px solid var(--line); border-radius: 999px; font-size: 13.5px; background: #fff; cursor: pointer; white-space: nowrap; }
     .chip input:checked + span { background: var(--brown); border-color: var(--brown); color: #fff; }
+
+    /* ---- thành phần bản đồ / chỉ đường ---- */
+    .map-chip {
+      display: flex; align-items: center; gap: 12px; margin-top: 22px; padding: 12px 14px;
+      max-width: 400px; border: 1px solid var(--line); border-radius: 16px; background: #fff;
+      text-decoration: none; box-shadow: var(--shadow); transition: border-color .15s, transform .15s;
+    }
+    .map-chip:hover { border-color: var(--tan); transform: translateY(-1px); }
+    .map-chip .m-pin { flex: 0 0 auto; width: 40px; height: 40px; border-radius: 12px; background: #f6ead8; display: grid; place-items: center; font-size: 20px; }
+    .map-chip b { display: block; font-size: 14px; color: var(--brown-deep); }
+    .map-chip small { display: block; font-size: 12px; color: var(--taupe); margin-top: 2px; }
+    .map-chip .m-go { margin-left: auto; flex: 0 0 auto; font-size: 13px; font-weight: 700; color: var(--brown); white-space: nowrap; }
+
+    /* ---- thẻ chọn phương thức nhận hàng (giao / tự đến lấy) ---- */
+    .method-grid { display: grid; gap: 10px; margin: 2px 0 8px; }
+    .method { position: relative; display: flex; gap: 10px; align-items: flex-start; border: 1.5px solid var(--line); border-radius: 14px; padding: 12px 14px; background: #fff; cursor: pointer; transition: border-color .15s, background .15s; }
+    .method input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+    .method:has(input:checked) { border-color: var(--brown); background: #fdf8f0; }
+    .method .m-dot { flex: 0 0 auto; width: 18px; height: 18px; margin-top: 2px; border-radius: 50%; border: 2px solid var(--line); display: grid; place-items: center; transition: border-color .15s; }
+    .method .m-dot::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--brown); transform: scale(0); transition: transform .12s; }
+    .method:has(input:checked) .m-dot { border-color: var(--brown); }
+    .method:has(input:checked) .m-dot::after { transform: scale(1); }
+    .method b { display: block; font-size: 14.5px; color: var(--brown-deep); }
+    .method small { display: block; font-size: 12.5px; color: var(--taupe); line-height: 1.55; margin-top: 3px; }
+    .pickup-box { border: 1px dashed var(--line); border-radius: 14px; padding: 12px 14px; margin-top: 2px; background: #fdf8f0; }
+    .pickup-box p { font-size: 13px; color: var(--taupe); line-height: 1.55; margin: 0 0 10px; }
     .totals { border-top: 1px solid var(--line); margin-top: 14px; padding-top: 10px; font-size: 14px; }
     .totals .row { display: flex; justify-content: space-between; padding: 2px 0; color: var(--taupe); }
     .totals .row.grand { color: var(--brown-deep); font-weight: 700; font-size: 16.5px; padding-top: 6px; }
@@ -241,11 +283,51 @@
     .toast.show { transform: translateX(-50%); opacity: 1; }
 
     @media (max-width: 860px) {
-      .hero { grid-template-columns: 1fr; padding-top: 36px; }
+      .hero { grid-template-columns: 1fr; padding-block-start: 36px; }
       .hero h1 { font-size: 38px; }
       .about, .delivery-grid { grid-template-columns: 1fr; }
-      .topnav { display: none; }
       .foot { grid-template-columns: 1fr; }
+    }
+    /* ===== mobile-first: điện thoại ≤640px ===== */
+    @media (max-width: 640px) {
+      .topnav { display: none; }
+      .hamburger { display: inline-flex; }
+      .topbar .btn-sm { padding: 10px 16px; } /* nút Giỏ hàng đủ to để bấm */
+      .hero { grid-template-columns: 1fr; padding-block: 24px 30px; gap: 22px; }
+      .hero h1 { font-size: 32px; }
+      .hero .slogan { font-size: 16px; }
+      .hero p.lead { font-size: 14.5px; }
+      .hero-img { min-height: 240px; }
+      .hero-ctas .btn { flex: 1; min-width: 140px; text-align: center; }
+      .hero-meta { gap: 16px; }
+      .map-chip { max-width: none; }
+      .method small { font-size: 12px; }
+      section.block { padding: 36px 0; }
+      .sec-title { font-size: 24px; }
+      /* menu 2 cột trên điện thoại */
+      .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .card .body { padding: 10px 11px 12px; gap: 4px; }
+      .card h3 { font-size: 13.5px; line-height: 1.35; }
+      .card .desc { font-size: 11.5px; line-height: 1.5; }
+      .card .price-tag { font-size: 12px; padding: 3px 9px; }
+      .card .add { width: 100%; padding: 11px 8px; font-size: 13px; } /* nút mua chiếm cả dòng, dễ bấm */
+      .why { padding: 16px; }
+      .why p { font-size: 12.5px; }
+      .fee-box { padding: 16px; }
+      /* chữ lớn hơn 16px chống iOS tự phóng khi bấm vào ô nhập */
+      input[type="text"], input[type="tel"], textarea, select { font-size: 16px; }
+      .chip span { padding: 9px 14px; font-size: 14px; }
+      .stepper button { width: 36px; height: 36px; font-size: 17px; }
+      .drawer { width: 100vw; }
+      .drawer-body { padding: 12px 14px; }
+      /* nút giỏ nổi không che nội dung cuối trang */
+      footer { padding-bottom: 84px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+      .card:hover { transform: none; }
+      .btn:hover { transform: none; }
     }
   </style>
 </head>
@@ -253,9 +335,9 @@
 
   <!-- ===== thanh trên ===== -->
   <div class="topbar">
-    <div class="wrap" style="max-width:1080px;margin:0 auto;padding:0 22px;display:flex;align-items:center;gap:18px;height:62px;">
+    <div class="wrap" style="max-width:1080px;margin:0 auto;padding:0 22px;display:flex;align-items:center;gap:14px;height:62px;">
       <a class="brand" href="#top">
-        <img src="favicon.png" alt="Ume" />
+        <img src="favicon.png" alt="Ume" width="38" height="38" />
         <b>UME</b>
       </a>
       <nav class="topnav">
@@ -263,10 +345,19 @@
         <a href="#noi-bat">Nổi bật</a>
         <a href="#menu">Thực đơn</a>
         <a href="#giao-hang">Giao hàng</a>
+        <a href="https://maps.app.goo.gl/2AozaFDTQQqv112S7?g_st=ic" target="_blank" rel="noopener">📍 Tìm đường đến quán</a>
       </nav>
       <button class="btn btn-primary btn-sm" style="margin-left:auto" onclick="openCart()" id="topbar-cart">Giỏ hàng</button>
+      <button class="hamburger" id="hamburger" aria-label="Mở menu" aria-expanded="false" onclick="toggleNav()">☰</button>
     </div>
   </div>
+  <nav class="mobilenav" id="mobilenav" aria-label="Menu điện thoại">
+    <a href="#ve-ume" onclick="toggleNav(false)">Về Ume</a>
+    <a href="#noi-bat" onclick="toggleNav(false)">Món nổi bật</a>
+    <a href="#menu" onclick="toggleNav(false)">Thực đơn</a>
+    <a href="#giao-hang" onclick="toggleNav(false)">Giao hàng</a>
+    <a href="https://maps.app.goo.gl/2AozaFDTQQqv112S7?g_st=ic" target="_blank" rel="noopener" onclick="toggleNav(false)">📍 Tìm đường đến quán</a>
+  </nav>
 
   <!-- ===== 1. HERO ===== -->
   <header class="wrap hero" id="top">
@@ -282,6 +373,11 @@
         <a class="btn btn-primary" href="#menu">Khám phá menu</a>
         <a class="btn btn-ghost" href="#menu" onclick="setTimeout(() => openCart(), 400)">Mua ngay</a>
       </div>
+      <a class="map-chip" href="https://maps.app.goo.gl/2AozaFDTQQqv112S7?g_st=ic" target="_blank" rel="noopener" aria-label="Mở bản đồ chỉ đường đến quán Ume">
+        <span class="m-pin">📍</span>
+        <span><b>Ghé quán tại Yên Nội</b><small>Làng Yên Nội, Ba Vì, Hà Nội</small></span>
+        <span class="m-go">Xem bản đồ →</span>
+      </a>
       <div class="hero-meta">
         <div><b id="meta-price">—</b><span>Đồng giá mỗi phần</span></div>
         <div><b id="meta-slots">3 khung</b><span>Giao theo khung giờ</span></div>
@@ -289,7 +385,7 @@
       </div>
     </div>
     <div class="hero-img">
-      <img class="hero-img" src="tra_sua.jpeg" alt="Trà sữa Ume" />
+      <img class="hero-img" src="anh_quan.png" alt="Trà sữa Ume" fetchpriority="high" />
     </div>
   </header>
 
@@ -302,7 +398,7 @@
   <!-- ===== 2. GIỚI THIỆU THƯƠNG HIỆU ===== -->
   <section class="block" id="ve-ume">
     <div class="wrap about">
-      <img class="about-img" src="tra_sua.jpeg" alt="Trà sữa Ume làm tại quán" />
+      <img class="about-img" src="cac_coc.jpg" alt="Trà sữa Ume làm tại quán" />
       <div>
         <p class="kicker">CÂU CHUYỆN UME</p>
         <h2 class="sec-title serif" style="text-align:left;margin:10px 0 6px">Trà sữa nhà làm<br />giữa làng Yên Nội</h2>
@@ -366,7 +462,8 @@
         <p class="kicker">KHU VỰC GIAO HÀNG</p>
         <h2 class="sec-title serif" style="text-align:left;margin:10px 0 6px">Xuất phát từ làng Yên Nội</h2>
         <p style="font-size:14.5px;color:var(--taupe)">
-          Quán ở làng Yên Nội, Ba Vì, Hà Nội. Giao tận nơi theo từng xã — phí ship và miễn phí theo số phần
+          Quán ở làng Yên Nội, Ba Vì, Hà Nội — <a href="https://maps.app.goo.gl/2AozaFDTQQqv112S7?g_st=ic" target="_blank" rel="noopener" style="color:var(--brown);font-weight:600">xem bản đồ</a>.
+          Giao tận nơi theo từng xã — phí ship và miễn phí theo số phần
           được lấy trực tiếp từ hệ thống của quán, luôn mới nhất. Không thấy xã của bạn? Ghé quán tự lấy — không mất phí.
         </p>
         <div class="hero-ctas" style="margin-top:20px">
@@ -377,6 +474,7 @@
           <p style="font-size:14px;color:var(--taupe)">
             Miễn phí <span id="fee-tulay">0đ</span> — ghé Ume tại làng Yên Nội để lấy đơn theo khung giờ bạn chọn.
           </p>
+          <a class="btn btn-ghost btn-sm" style="margin-top:10px" href="https://maps.app.goo.gl/2AozaFDTQQqv112S7?g_st=ic" target="_blank" rel="noopener">📍 Xem đường đến quán</a>
         </div>
       </div>
       <div class="fee-box">
@@ -396,6 +494,10 @@
         <h4>UME</h4>
         <p>Vị trà thơm, thưởng trà thanh</p>
         <p style="margin-top:10px">📍 Làng Yên Nội, Ba Vì, Hà Nội</p>
+        <a href="https://maps.app.goo.gl/2AozaFDTQQqv112S7?g_st=ic" target="_blank" rel="noopener"
+           style="display:inline-flex;align-items:center;gap:8px;margin-top:8px;padding:9px 14px;border:1px solid rgba(255,255,255,.25);border-radius:999px;color:#ecdcc4;text-decoration:none;font-size:13px;font-weight:600">
+          🗺️ Xem bản đồ / Chỉ đường
+        </a>
         <p>🕒 Nhận đơn theo khung giờ: <span id="foot-slots">9–11 · 15–17 · 20–22</span></p>
       </div>
       <div>
@@ -441,9 +543,19 @@
           <input type="tel" id="f-phone" maxlength="12" placeholder="VD: 0912345678" /></div>
 
         <h4>Nhận hàng</h4>
-        <div class="radios" id="delivery-chips">
-          <label class="chip"><input type="radio" name="delivery" value="giao" checked onchange="onDeliveryChange()" /><span>Giao tận nơi</span></label>
-          <label class="chip"><input type="radio" name="delivery" value="tu_lay" onchange="onDeliveryChange()" /><span>Tự đến lấy</span></label>
+        <div class="method-grid">
+          <label class="method">
+            <input type="radio" name="delivery" value="giao" checked onchange="onDeliveryChange()" />
+            <span class="m-dot" aria-hidden="true"></span>
+            <span class="m-body"><b>🛵 Giao hàng tận nơi</b>
+              <small>Bạn chỉ cần đặt món, quán sẽ chuẩn bị và giao đồ uống đến địa chỉ của bạn.</small></span>
+          </label>
+          <label class="method">
+            <input type="radio" name="delivery" value="tu_lay" onchange="onDeliveryChange()" />
+            <span class="m-dot" aria-hidden="true"></span>
+            <span class="m-body"><b>🏠 Tự đến quán lấy</b>
+              <small>Bạn muốn chủ động thời gian? Đặt món trước, ghé quán lấy đồ uống khi quán chuẩn bị xong nhé!</small></span>
+          </label>
         </div>
         <div id="giao-wrap">
           <div class="field" style="margin-top:10px"><label class="lbl" for="f-zone">Xã / khu vực giao</label>
@@ -454,6 +566,15 @@
           <div class="field"><label class="lbl" for="f-address">Địa chỉ giao hàng *</label>
             <input type="text" id="f-address" maxlength="200" placeholder="Số nhà, ngõ, thôn/làng..." /></div>
         </div>
+        <div id="tulay-wrap" hidden>
+          <div class="pickup-box" style="margin-top:10px">
+            <p>📍 <b style="color:var(--brown-deep)">Ume — Làng Yên Nội, Ba Vì, Hà Nội.</b>
+              Đơn của quán chuẩn bị theo khung giờ, quán sẽ gọi điện khi gần xong nhé!</p>
+            <a class="btn btn-primary btn-sm" href="https://maps.app.goo.gl/2AozaFDTQQqv112S7?g_st=ic" target="_blank" rel="noopener">📍 Xem đường đến quán</a>
+            <div class="field" style="margin:10px 0 0"><label class="lbl" for="f-pickup">Dự kiến đến lấy lúc (tuỳ chọn)</label>
+              <input type="text" id="f-pickup" maxlength="60" placeholder="VD: khoảng 16h hôm nay" /></div>
+          </div>
+        </div>
 
         <h4>Thanh toán</h4>
         <div class="radios" id="pay-chips"></div>
@@ -463,7 +584,7 @@
 
         <div class="totals">
           <div class="row"><span>Tiền hàng (<span id="t-cups">0</span> phần)</span><span id="t-sub">0đ</span></div>
-          <div class="row"><span>Phí giao hàng</span><span id="t-fee">0đ</span></div>
+          <div class="row"><span id="t-fee-lbl">Phí giao hàng</span><span id="t-fee">0đ</span></div>
           <div class="row grand"><span>Tổng thanh toán</span><span id="t-total">0đ</span></div>
         </div>
         <button class="btn btn-primary" id="btn-submit" style="width:100%;margin-top:14px" onclick="submitOrder()">Xác nhận gửi đơn</button>
@@ -493,13 +614,24 @@
        ============================================================ */
     const GAS_URL = "http://localhost:8788/exec";
 
-    /* ---- ảnh minh hoạ sản phẩm — thay ảnh sau này bằng cách thêm tên file vào map này ---- */
+    /* ---- ảnh món: ưu tiên image_url do hệ thống quán trả về (cột "Link ảnh" trong tab Món);
+       thiếu hoặc ảnh lỗi thì dùng IMG_BY_ID rồi tới ảnh mặc định ---- */
     const IMG_BY_ID = {}; // VD: { "TS01": "tra-sua-dam-vi.jpg" }
     const FALLBACK_IMG = "tra_sua.jpeg";
+    /* Ảnh Google Drive dạng link xem (file/d/..., open?id=...) không nhúng được thẳng — đổi sang link thumbnail. */
+    const driveImg = (url) => {
+      const m = url.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:[^#]*&)?id=)([\w-]{20,})/);
+      return m ? "https://drive.google.com/thumbnail?id=" + m[1] + "&sz=w800" : url;
+    };
+    /* Ô "Link ảnh" dán nhầm cả đoạn HTML nhúng (VD imgbb: <a ...><img src="https://i.ibb.co/...">) — lôi link ảnh ra. */
+    const extractImgUrl = (raw) => {
+      const m = String(raw).match(/<img[^>]*\ssrc=["']([^"']+)["']/i);
+      return m ? m[1] : String(raw).trim();
+    };
 
     /* ---- mô tả ngắn hiển thị (chỉ để giới thiệu, giá/tên lấy từ hệ thống) ---- */
     const DESC_BY_ID = {
-      "TS01": "Trà sữa truyền thống, vị trà đậm rõ, sữa béo mượt.",
+      "TS01": "Trà sữa truyền thống, vị trà đậm rõ, sữa béo mượt12333",
       "TS02": "Trân châu đường đen nhồi đầy đáy ly, nhai đã miệng.",
       "TS03": "Ô long ủ quế hoa, hậu ngọt ấm — chút vị sữa nhẹ.",
       "TS04": "Trà sữa thái xanh, béo thơm mùi lá dứa.",
@@ -516,7 +648,12 @@
 
     const fmt = (n) => (n || 0).toLocaleString("vi-VN") + "đ";
     const byId = (id) => document.getElementById(id);
-    const imgOf = (id) => IMG_BY_ID[id] || FALLBACK_IMG;
+    const imgOf = (id) => {
+      const p = findProduct(id);
+      const raw = p && typeof p.image_url === "string" ? extractImgUrl(p.image_url) : "";
+      const u = /^https:\/\//.test(raw) ? driveImg(raw) : "";
+      return u || IMG_BY_ID[id] || FALLBACK_IMG;
+    };
     const descOf = (p) => DESC_BY_ID[p.product_id] || DESC_FALLBACK;
     const findProduct = (id) => (CFG.products || []).find((p) => p.product_id === id);
 
@@ -563,7 +700,8 @@
       return `
         <div class="card">
           <div class="thumb">
-            <img src="${imgOf(p.product_id)}" alt="${p.name}" loading="lazy" />
+            <img src="${imgOf(p.product_id)}" alt="${p.name}" loading="lazy" decoding="async"
+                 onerror="this.onerror=null;this.src='${FALLBACK_IMG}'" />
             <span class="price-tag">${fmt(p.price)}</span>
           </div>
           <div class="body">
@@ -770,6 +908,7 @@
     function renderTotals() {
       byId("t-cups").textContent = cartCount();
       byId("t-sub").textContent = fmt(cartSub());
+      byId("t-fee-lbl").textContent = deliveryMethod() === "giao" ? "Phí giao hàng" : "Phí giao hàng (tự đến lấy)";
       byId("t-fee").textContent = shippingFee() === 0 ? "0đ" : fmt(shippingFee());
       byId("t-total").textContent = fmt(cartSub() + shippingFee());
       byId("fab-total").textContent = fmt(cartSub() + shippingFee());
@@ -778,7 +917,17 @@
     function onDeliveryChange() {
       const isGiao = deliveryMethod() === "giao";
       byId("giao-wrap").style.display = isGiao ? "" : "none";
+      byId("tulay-wrap").hidden = isGiao;
       renderTotals();
+    }
+
+    /* ---- menu điện thoại ---- */
+    function toggleNav(force) {
+      const nav = byId("mobilenav");
+      const show = force !== undefined ? force : !nav.classList.contains("show");
+      nav.classList.toggle("show", show);
+      byId("hamburger").setAttribute("aria-expanded", show ? "true" : "false");
+      byId("hamburger").textContent = show ? "✕" : "☰";
     }
 
     /* ---- mở/đóng giỏ ---- */
@@ -804,8 +953,12 @@
       if (!CART.length) return showMsg("error", "Giỏ hàng đang trống — chọn món trước nhé.");
       const name = byId("f-name").value.trim();
       const phone = byId("f-phone").value.trim().replace(/[\s.\-]/g, "");
-      const note = byId("f-note").value.trim();
       const isGiao = deliveryMethod() === "giao";
+      // Đơn tự lấy: gộp "dự kiến đến lấy" vào ghi chú — đi qua trường note có sẵn, không đổi hợp đồng API.
+      const note = [
+        byId("f-note").value.trim(),
+        isGiao ? "" : byId("f-pickup").value.trim() ? "Dự kiến đến lấy: " + byId("f-pickup").value.trim() : ""
+      ].filter(Boolean).join(". ");
       const commune = chosenCommune();
       const address = isGiao ? byId("f-address").value.trim() : "";
       const payEl = document.querySelector('input[name="payment"]:checked');

@@ -1,0 +1,16 @@
+<!doctype html>
+<!-- Trang kiểm tra layout mobile (chỉ dùng khi phát triển, KHÔNG đóng gói vào zip).
+     Nhúng index-test.html vào 3 iframe đúng bề rộng điện thoại phổ biến và đo
+     scrollWidth so với bề rộng iframe để phát hiện cuộn ngang. -->
+<html lang="vi">
+<head><meta charset="utf-8"><title>Mobile check</title></head>
+<body style="margin:0">
+<iframe id="w360" style="width:360px;height:900px;border:1px solid #ccc"></iframe>
+<iframe id="w390" style="width:390px;height:900px;border:1px solid #ccc"></iframe>
+<iframe id="w430" style="width:430px;height:900px;border:1px solid #ccc"></iframe>
+<script>
+  const PAGE = "index-test.html";
+  ["w360", "w390", "w430"].forEach((id) => { document.getElementById(id).src = PAGE; });
+</script>
+</body>
+</html>
