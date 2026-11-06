@@ -1,0 +1,3 @@
+# Dùng khi Netlify đặt Base directory = ume-landing (đường dẫn tính từ thư mục này).
+[build]
+  publish = "."

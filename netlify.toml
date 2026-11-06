@@ -1,3 +1,4 @@
-# Netlify: web tĩnh, không cần build. Đường dẫn tính từ gốc repo.
+# Dùng khi Netlify để trống Base directory (đường dẫn tính từ gốc repo).
+# Nếu Base directory = ume-landing, Netlify đọc ume-landing/netlify.toml thay cho file này.
 [build]
   publish = "ume-landing"
