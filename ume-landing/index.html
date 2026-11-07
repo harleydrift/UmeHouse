@@ -245,6 +245,9 @@
     .c-line .rm { border: none; background: none; font-size: 15px; color: var(--ink-2); }
     .ck h4 { font-size: 16px; font-weight: 900; margin: 18px 0 8px; }
     .field { margin-bottom: 10px; }
+    .map-row { display: flex; gap: 6px; }
+    .map-row input { flex: 1; min-width: 0; }
+    .map-btn { flex: none; width: 46px; font-size: 20px; border: 1.5px solid var(--ink, #222); border-radius: 10px; background: #fff; cursor: pointer; }
     .method-grid { display: grid; gap: 8px; }
     .method { display: flex; gap: 10px; align-items: flex-start; border: 2px solid var(--ink); border-radius: 12px; padding: 10px 12px; background: var(--paper); cursor: pointer; }
     .method input { width: 18px; height: 18px; margin-top: 3px; accent-color: var(--orange); flex: none; }
@@ -493,6 +496,12 @@
             <p class="note" id="slot-note"></p></div>
           <div class="field"><label class="lbl" for="f-address">Địa chỉ *</label>
             <input type="text" id="f-address" maxlength="200" placeholder="Số nhà, ngõ, thôn/xóm..." autocomplete="street-address" /></div>
+          <div class="field"><label class="lbl" for="f-map">Ghim vị trí cho shipper dễ tìm <span style="font-weight:400">(nên có)</span></label>
+            <div class="map-row">
+              <input type="text" id="f-map" maxlength="200" placeholder="Dán link vị trí vào đây" />
+              <button type="button" class="map-btn" onclick="openGmaps()" aria-label="Mở Google Maps">📍</button>
+            </div>
+            <p class="note">Bấm 📍 mở Google Maps, giữ tay lên chỗ giao, bấm <b>Chia sẻ</b> → <b>Sao chép</b> rồi dán vào ô trên.</p></div>
         </div>
         <div id="tulay-wrap" hidden>
           <div class="pickup-box" style="margin-top:10px">
@@ -1087,7 +1096,8 @@
       const phone = byId("f-phone").value.trim().replace(/[\s.\-]/g, "");
       const isGiao = deliveryMethod() === "giao";
       const pickup = byId("f-pickup").value.trim();
-      const note = [byId("f-note").value.trim(), !isGiao && pickup ? "Dự kiến đến lấy: " + pickup : ""].filter(Boolean).join(". ");
+      const mapLink = isGiao ? byId("f-map").value.trim() : "";
+      const note = [byId("f-note").value.trim(), !isGiao && pickup ? "Dự kiến đến lấy: " + pickup : "", mapLink ? "Vị trí map: " + mapLink : ""].filter(Boolean).join(". ");
       const commune = chosenCommune();
       const address = isGiao ? byId("f-address").value.trim() : "";
       const payEl = document.querySelector('input[name="payment"]:checked');
@@ -1153,5 +1163,12 @@
 
     loadConfig();
   </script>
+<script>
+  // Mở Google Maps để khách ghim vị trí, chia sẻ link rồi dán lại vào ô #f-map.
+  function openGmaps() {
+    const v = document.getElementById("f-map").value.trim();
+    window.open(v.startsWith("http") ? v : "https://www.google.com/maps/@21.0,105.64,14z", "_blank", "noopener");
+  }
+</script>
 </body>
 </html>
